@@ -1,0 +1,11 @@
+{
+  "name": "mini-express",
+  "version": "1.0.0",
+  "description": "Day 5 fill-in-the-blank tiny Express clone",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "keywords": ["http", "middleware", "router", "nodejs"],
+  "license": "MIT"
+}
