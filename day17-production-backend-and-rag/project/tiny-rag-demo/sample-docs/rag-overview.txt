@@ -1,0 +1,13 @@
+RAG stands for Retrieval-Augmented Generation.
+
+The pipeline has six steps: ingest documents, chunk them into smaller pieces, embed each chunk into a vector, store vectors, retrieve similar chunks for a user query, and augment the LLM prompt with that context before generating an answer.
+
+Embeddings convert text into numbers where similar meaning produces similar vectors.
+
+Cosine similarity measures how close two vectors are. Higher scores mean more relevant chunks.
+
+Chunking is important because embeddings work best on focused passages, not entire books.
+
+Vector databases like Pinecone or pgvector store embeddings at scale. For learning, an in-memory array works fine.
+
+RAG is preferred over fine-tuning when your knowledge changes frequently because you can add new documents without retraining the model.

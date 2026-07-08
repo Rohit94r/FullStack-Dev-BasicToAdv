@@ -1,0 +1,15 @@
+Docker packages your application and its dependencies into a portable container image.
+
+An image is a read-only blueprint. When you run an image, Docker creates a container — an isolated process with its own filesystem.
+
+Dockerfile defines how to build the image: base OS, install dependencies, copy code, set the start command.
+
+docker-compose lets you run multiple containers together, such as an API and PostgreSQL database, with one command.
+
+Inside docker-compose, services communicate using service names like db instead of localhost.
+
+Volumes persist database data even when containers are removed.
+
+Use docker compose up --build to build and start everything. Use docker compose down to stop.
+
+Common mistake: connecting to localhost from inside a container for the database. Use the service name db instead.
