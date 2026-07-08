@@ -34,8 +34,6 @@ const CONFIG = {
 let questionBank = [];
 try {
   // TYPE YOUR CODE HERE:
-  const raw = fs.readFileSync(QUESTIONS_PATH, "utf-8");
-  questionBank =  JSON.parse(raw);
 
 
 
@@ -79,11 +77,6 @@ function filterQuestions(questions, { difficulty, category } = {}) {
   // });
 
   // TYPE YOUR CODE HERE:
-  return questions.filter((q)=>{
-    if (difficulty && q.difficulty !== difficulty) return false;
-    if (category && q.category !== category) return false;
-    return true;
-  })
 
 
 
@@ -108,12 +101,6 @@ function shuffle(array) {
   // return array;
 
   // TYPE YOUR CODE HERE:
-  for (let i = array.length - 1; i>0; i--){
-    const j = Math.floor(Math.random() * (i+1));
-    [array[i], array[j]] = [array[j], array[i]];
-
-  }
-  return array;
 
 
 
@@ -154,25 +141,8 @@ function askWithTimeout(rl, prompt, seconds) {
   // });
 
   // TYPE YOUR CODE HERE:
-  return new Promise((resolve) => {
-    let answered = false;
 
-    const timer = setTimeout(() => {
-      if (!answered) {
-        answered = true;
-        console.log("\nTime's up!");
-        resolve(null);
-      }
-    }, seconds * 1000);
 
-    rl.question(prompt, (answer) => {
-      if (!answered) {
-        answered = true;
-        clearTimeout(timer);
-        resolve(answer);
-      }
-    });
-  });
 
 }
 
@@ -218,33 +188,6 @@ async function askValidOption(rl, question, seconds) {
   // }
 
   // TYPE YOUR CODE HERE:
-  while (true) {
-    question.options.forEach((option, index) =>{
-      console.log(`${index + 1}. ${option}`);
-
-    });
-    const answer = await askWithTimeout(
-      rl,
-      `Your answer (1-${question.options.length}):`,
-      seconds
-    );
-    if ( answer === null){
-      return { selectedIndex: null, timedOut: true};
-    }
-    const selectedNumber = Number(answer.trim());
-    const selectedIndex = selectedNumber - 1;
-
-    if ( 
-      Number.isInteger(selectedNumber) &&
-      selectedIndex >= 0 && 
-      selectedIndex < question.options.length
-    ){
-      return{selectedIndex, timedOut: false};
-
-    }
-    console.log(`Please Enter a fumber from 1 to ${question.options.length}.`);
-
-  }
 
 
 
@@ -292,25 +235,6 @@ function createScoreTracker() {
       // return { correct: false, timedOut: false, points: 0, streak };
 
       // TYPE YOUR CODE HERE:
-      if (timedOut){
-        streak = 0;
-        return{correct: false, timedOut:true, points: 0, streak};
-
-      } 
-      if (selectedIndex === question.answer){
-        correct++;
-        streak++;
-        maxStreak = Math.max(maxStreak, streak);
-
-        const points = 1 + (streak > 1 ? CONFIG.streakBonusPoints:0);
-        score += points;
-        byCategory[question.category] = (byCategory[question.category] || 0) + 1 ;
-        return { correct: true, timedOut: false, points, streak};
-
-
-      }
-      streak = 0;
-      return {correct:false, timedOut: false, points:0, streak}
 
 
 
@@ -331,14 +255,6 @@ function createScoreTracker() {
       // };
 
       // TYPE YOUR CODE HERE:
-      return{
-        score,
-        accuracy: totalAsked === 0 ? 0 : (correct / totalAsked) * 100,
-        maxStreak, 
-        byCategory,
-
-      };
-
 
 
 
@@ -375,22 +291,6 @@ function printReport(report, totalAsked) {
   // }
 
   // TYPE YOUR CODE HERE:
-  console.log(`Questions asked: ${totalAsked}`);
-  console.log(`Score: ${report.score}`);
-  console.log(`Accuracy: ${report.accuracy.toFixed(0)}%`);
-  console.log(`Max Streak ${report.maxStreak}`);
-
-  console.log("By Category:");
-  const entries = Object.entries(report.byCategory);
-
-  if (entries.length === 0  ){
-    console.log(" No correct Ans Yet.");
-
-  }else{
-    entries.forEach(([category, count])=>{
-      console.log(`  ${category}: ${count}`);
-    });
-  }
 
 
 
@@ -415,12 +315,7 @@ function loadHighScore() {
   // return JSON.parse(raw);
 
   // TYPE YOUR CODE HERE:
-  if (!fs.existsSync(HIGH_SCORE_PATH)) {
-    return { score: 0, date: null };
-  }
 
-  const raw = fs.readFileSync(HIGH_SCORE_PATH, "utf8");
-  return JSON.parse(raw);
 
 
 }
@@ -440,12 +335,7 @@ function saveHighScore(score) {
   // fs.writeFileSync(HIGH_SCORE_PATH, JSON.stringify(highScore, null, 2));
 
   // TYPE YOUR CODE HERE:
-  const highScore = {
-    score,
-    date: new Date().toISOString(),
-  };
 
-  fs.writeFileSync(HIGH_SCORE_PATH, JSON.stringify(highScore, null, 2));
 
 
 }
@@ -479,19 +369,8 @@ async function runQuiz() {
   // };
 
   // TYPE YOUR CODE HERE:
-  const difficultyInput = await ask(
-    rl,
-    "Filter difficulty (easy/medium/hard/all): "
-  );
-  const categoryInput = await ask(rl, "Filter category (or 'all'): ");
 
-  const difficulty = difficultyInput.trim().toLowerCase();
-  const category = categoryInput.trim().toLowerCase();
 
-  const filters = {
-    difficulty: difficulty === "all" || difficulty === "" ? undefined : difficulty,
-    category: category === "all" || category === "" ? undefined : category,
-  };
 
   // TODO: Filter, shuffle, and take first CONFIG.questionsPerRound questions.
   //
@@ -511,18 +390,11 @@ async function runQuiz() {
   // }
 
   // TYPE YOUR CODE HERE:
-  const round = shuffle([...filterQuestions(questionBank, filters)]).slice(
-    0,
-    CONFIG.questionsPerRound
-  );
 
-  if (round.length === 0) {
-    console.log("\nNo questions matched your filters. Try again with 'all'.");
-    rl.close();
-    return;
-  }
+
 
   const tracker = createScoreTracker();
+  const round = []; // Replace this when you write your filter/shuffle code.
 
   for (let i = 0; i < round.length; i++) {
     const q = round[i];
@@ -547,25 +419,13 @@ async function runQuiz() {
     // }
 
     // TYPE YOUR CODE HERE:
-    const result = await askValidOption(rl, q, CONFIG.secondsPerQuestion);
-    const feedback = tracker.recordAnswer(q, result.selectedIndex, result.timedOut);
-    
-    if (feedback.timedOut) {
-      console.log(`Wrong. Correct answer: ${q.options[q.answer]}`);
-    } else if (feedback.correct) {
-     console.log(`Correct! (+${feedback.points}, streak: ${feedback.streak})`);
-    }
-     else {
-     console.log(`Wrong. Correct answer: ${q.options[q.answer]}`);
-     }
 
 
 
   }
 
-
   const report = tracker.getReport(round.length);
-printReport(report, round.length);
+  printReport(report, round.length);
 
   // TODO: Compare report.score to high score. Save only if current score is better.
   //
@@ -583,14 +443,6 @@ printReport(report, round.length);
   // }
 
   // TYPE YOUR CODE HERE:
-  const highScore = loadHighScore();
-  
-   if (report.score > highScore.score) {
-    saveHighScore(report.score);
-    console.log(`New high score: ${report.score}`);
-   } else {
-    console.log(`High score: ${highScore.score}`);
-  }
 
 
 
@@ -603,8 +455,9 @@ printReport(report, round.length);
 // This starts the game.
 //
 // ANSWER EXAMPLE:
-runQuiz().catch(console.error);
+// runQuiz().catch(console.error);
 
 // TYPE YOUR CODE HERE:
+
 
 
