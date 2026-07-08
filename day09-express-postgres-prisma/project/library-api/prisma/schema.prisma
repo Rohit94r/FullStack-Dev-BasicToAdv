@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MemberRole {
+  MEMBER
+  LIBRARIAN
+  ADMIN
+}
+
+model Member {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  role      MemberRole @default(MEMBER)
+  createdAt DateTime   @default(now()) @map("created_at")
+
+  loans Loan[]
+
+  @@map("members")
+}
+
+model Author {
+  id   Int    @id @default(autoincrement())
+  name String
+  bio  String?
+
+  books Book[]
+
+  @@map("authors")
+}
+
+model Book {
+  id              Int      @id @default(autoincrement())
+  title           String
+  isbn            String?  @unique
+  totalCopies     Int      @default(1) @map("total_copies")
+  copiesAvailable Int      @default(1) @map("copies_available")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  authorId Int    @map("author_id")
+  author   Author @relation(fields: [authorId], references: [id])
+
+  loans Loan[]
+
+  @@index([authorId])
+  @@map("books")
+}
+
+model Loan {
+  id         Int       @id @default(autoincrement())
+  borrowedAt DateTime  @default(now()) @map("borrowed_at")
+  dueAt      DateTime  @map("due_at")
+  returnedAt DateTime? @map("returned_at")
+
+  memberId Int    @map("member_id")
+  member   Member @relation(fields: [memberId], references: [id])
+
+  bookId Int  @map("book_id")
+  book   Book @relation(fields: [bookId], references: [id])
+
+  @@index([memberId, returnedAt])
+  @@index([bookId])
+  @@map("loans")
+}

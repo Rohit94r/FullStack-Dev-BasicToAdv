@@ -1,0 +1,246 @@
+// ============================================================
+// DAY 9 — LESSON 3: PRISMA SCHEMA DEEP-DIVE
+// Interview Level: Beginner → Advanced
+// ============================================================
+//
+// This file is a STUDY schema. It is a complete, valid schema.prisma
+// that shows every important feature: field types, attributes,
+// 1-N relations, N-N relations (implicit AND explicit), and enums.
+//
+// You could copy it into a real project and run `prisma migrate dev`.
+// Read it top to bottom — every line is explained.
+
+// ─────────────────────────────────────────────────────────────
+// GENERATOR + DATASOURCE (explained in lesson 02)
+// ─────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// ENUMS — a fixed set of allowed values
+// ─────────────────────────────────────────────────────────────
+// Analogy: a dropdown menu. The column can ONLY hold one of these
+// values — the database itself rejects anything else.
+// In PostgreSQL this becomes: CREATE TYPE "Role" AS ENUM ('USER','ADMIN');
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// ─────────────────────────────────────────────────────────────
+// MODEL BASICS — a model = a table
+// ─────────────────────────────────────────────────────────────
+// Each field line reads as:  name  type  attributes...
+//
+// COMMON SCALAR TYPES:
+//   Int       whole numbers               → integer
+//   String    text                        → text
+//   Boolean   true/false                  → boolean
+//   DateTime  date + time                 → timestamp
+//   Float     decimal (approximate!)      → double precision
+//   Decimal   exact decimal (use for money)
+//   Json      free-form JSON              → jsonb
+//
+// A trailing `?` means the column is NULLABLE (optional).
+// No `?` means NOT NULL (required).
+
+model User {
+  // @id                     → PRIMARY KEY
+  // @default(autoincrement()) → PostgreSQL SERIAL: DB counts 1, 2, 3...
+  id Int @id @default(autoincrement())
+
+  // @unique → the database creates a UNIQUE INDEX.
+  // Two users can never share an email — the DB enforces it,
+  // not just your JavaScript code. (Defense at the deepest layer!)
+  email String @unique
+
+  name String
+
+  // Nullable column: a user may not have a bio.
+  bio String?
+
+  // Enum field with a default. New users are USER unless we say otherwise.
+  role Role @default(USER)
+
+  // @default(now()) → the DB fills in the current timestamp on INSERT.
+  createdAt DateTime @default(now())
+
+  // @updatedAt → Prisma AUTOMATICALLY updates this field on every UPDATE.
+  // (This one is done by the Prisma Client, not by the database.)
+  updatedAt DateTime @updatedAt
+
+  // RELATION FIELD (see "1-N RELATIONS" below):
+  // "a user has many borrow records". This field does NOT exist as a
+  // column in the User table — it only exists in Prisma's world so you
+  // can write include: { borrows: true }.
+  borrows BorrowRecord[]
+
+  // @@map renames the TABLE in the database. Model stays `User` in code,
+  // but the actual table is called `users` (a common SQL convention).
+  @@map("users")
+}
+
+// ─────────────────────────────────────────────────────────────
+// 1-N (ONE-TO-MANY) RELATIONS
+// ─────────────────────────────────────────────────────────────
+// "One author has MANY books. Each book has ONE author."
+//
+// The rule to memorize: the FOREIGN KEY always lives on the MANY side.
+// (A book stores its authorId; the author stores nothing extra.)
+//
+// Analogy: children write their mother's name on their school form.
+// The mother does not carry a list of children in her pocket —
+// you can always FIND her children by searching the forms.
+
+model Author {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  // The "virtual" back-relation: lets you do
+  //   prisma.author.findUnique({ include: { books: true } })
+  // No column is created for this.
+  books Book[]
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  // N-N back-relation (implicit style, explained below)
+  books Book[]
+}
+
+model Book {
+  id    Int    @id @default(autoincrement())
+  title String
+
+  // ── THE TWO PIECES OF EVERY PRISMA RELATION ──
+  //
+  // Piece 1: the actual foreign key COLUMN (a real Int column in the DB)
+  authorId Int
+  //
+  // Piece 2: the relation FIELD that connects the pieces:
+  //   fields: [authorId]  → "authorId on THIS model..."
+  //   references: [id]    → "...points at id on Author"
+  // This tells the DB to create a FOREIGN KEY constraint, so you can
+  // never insert a book with authorId = 999 if author 999 does not exist.
+  author Author @relation(fields: [authorId], references: [id])
+
+  // ── IMPLICIT N-N (many-to-many) ──
+  // "A book can have many categories; a category has many books."
+  // Just declare arrays on BOTH sides and Prisma silently creates a
+  // hidden join table for you (called `_BookToCategory`).
+  // ✅ Easy, zero boilerplate.
+  // ❌ You cannot put extra columns on the relationship itself.
+  categories Category[]
+
+  copiesTotal     Int @default(1)
+  copiesAvailable Int @default(1)
+
+  borrows BorrowRecord[]
+
+  // @@index creates a plain (non-unique) INDEX to speed up queries
+  // that filter by this column, e.g. WHERE authorId = 3.
+  @@index([authorId])
+}
+
+// ─────────────────────────────────────────────────────────────
+// EXPLICIT N-N — when the relationship itself has data
+// ─────────────────────────────────────────────────────────────
+// BorrowRecord connects User and Book (many users borrow many books),
+// BUT the connection carries its own facts: when borrowed, when due,
+// when returned. So we model the join table OURSELVES as a real model.
+//
+// Rule of thumb:
+//   relationship has no extra data → implicit N-N (arrays on both sides)
+//   relationship HAS extra data    → explicit join model like this one
+
+model BorrowRecord {
+  id Int @id @default(autoincrement())
+
+  // FK #1 → who borrowed
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  // FK #2 → which book
+  bookId Int
+  book   Book @relation(fields: [bookId], references: [id])
+
+  borrowedAt DateTime  @default(now())
+  dueAt      DateTime
+  // NULL until the book comes back — that is how we know it is still out.
+  returnedAt DateTime?
+
+  // Composite index: speeds up "all active borrows of this user".
+  @@index([userId, returnedAt])
+}
+
+// ─────────────────────────────────────────────────────────────
+// BONUS PATTERNS YOU WILL MEET IN REAL PROJECTS
+// ─────────────────────────────────────────────────────────────
+//
+// 1) One-to-one: put @unique on the foreign key.
+//      model Profile {
+//        userId Int  @unique      ← @unique makes it 1-1 instead of 1-N
+//        user   User @relation(fields: [userId], references: [id])
+//      }
+//
+// 2) Composite unique — "a user can review a book only once":
+//      @@unique([userId, bookId])
+//
+// 3) Deletion behavior — what happens to books when their author is deleted?
+//      author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+//    Options: Cascade (delete children too), Restrict (block the delete),
+//    SetNull (FK becomes NULL — the FK column must be nullable).
+//
+// 4) UUID primary keys instead of autoincrement:
+//      id String @id @default(uuid())
+//    Good when IDs are exposed publicly (harder to guess/enumerate).
+
+// ─────────────────────────────────────────────────────────────
+// INTERVIEW Q&A CHEAT SHEET
+// ─────────────────────────────────────────────────────────────
+//
+// Q1: How do you model a 1-N relation in Prisma?
+// A: The "many" side gets a scalar FK column (authorId Int) plus a
+//    relation field: author Author @relation(fields: [authorId],
+//    references: [id]). The "one" side gets a list back-relation
+//    (books Book[]). The FK column always lives on the many side.
+//
+// Q2: How do you model many-to-many in Prisma?
+// A: Two ways. Implicit: put list fields on both models and Prisma
+//    creates a hidden join table. Explicit: create your own join model
+//    with two FKs — required when the relationship needs its own columns
+//    (like borrowedAt on BorrowRecord).
+//
+// Q3: What is the difference between @unique and @id?
+// A: @id marks the primary key (exactly one per model, never null).
+//    @unique creates a unique index on another column — many allowed,
+//    can be nullable. Both can be used in findUnique lookups.
+//
+// Q4: What does @updatedAt do and who updates it?
+// A: Prisma Client sets the field to the current time on every update
+//    it performs. Note: raw SQL updates outside Prisma will NOT touch it.
+//
+// Q5: What is a relation field vs a foreign key column?
+// A: The FK column (authorId) is a real database column holding the id.
+//    The relation field (author) is virtual — Prisma uses it for
+//    include/select and type-safe nested queries; no column is created.
+//
+// Q6: What onDelete options exist and when do you use them?
+// A: Cascade (children deleted with parent — e.g., delete user → delete
+//    their sessions), Restrict (refuse deletion while children exist —
+//    safe default for important data), SetNull (orphan the child,
+//    FK must be optional — e.g., keep books when author is removed).
+//
+// Q7: When do you choose an explicit join model over an implicit N-N?
+// A: When the relationship itself carries data (timestamps, quantity,
+//    status) or when you need to query the join table directly.
