@@ -1,0 +1,3 @@
+# Day 15 — CLI Expense Tracker
+# No external dependencies — stdlib only (dataclasses, json, datetime, typing)
+# Python 3.10+ required (match statement)
