@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  HTML — File 3: Semantic HTML & Page Structure
+  Level: Intermediate → Interview Level
+  ============================================================
+
+  SEMANTIC HTML = Using the RIGHT tag for the RIGHT content.
+  "Semantic" means "meaningful."
+
+  WHY SEMANTIC HTML MATTERS:
+  1. ACCESSIBILITY → screen readers know what each part means
+  2. SEO           → search engines rank semantic pages higher
+  3. READABILITY   → other devs understand your code faster
+  4. MAINTAINABILITY → easier to update and debug
+
+  NON-SEMANTIC (bad):  <div id="nav">  <div id="footer">
+  SEMANTIC    (good):  <nav>           <footer>
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semantic HTML</title>
+</head>
+<body>
+
+  <!--
+    PAGE LAYOUT with Semantic Tags:
+
+    ┌─────────────────────────────────┐
+    │          <header>               │  Site logo, nav, hero
+    ├─────────────────────────────────┤
+    │             <nav>               │  Navigation links
+    ├──────────────────┬──────────────┤
+    │    <main>        │   <aside>    │  Main content + sidebar
+    │  ┌───────────┐   │              │
+    │  │ <article> │   │  Related     │
+    │  │ <section> │   │  content     │
+    │  └───────────┘   │              │
+    ├──────────────────┴──────────────┤
+    │          <footer>               │  Links, copyright
+    └─────────────────────────────────┘
+  -->
+
+  <!-- ========================================================
+    HEADER — top of page or top of a section
+    Contains: logo, site title, navigation, hero section
+    Can be used inside <article> or <section> too (not just page top)
+  ======================================================== -->
+  <header>
+    <h1>
+      <a href="/">My Learning Blog</a>
+    </h1>
+    <p>Basic to Advanced Web Development</p>
+
+    <!-- ──────────────────────────────────────────────────
+      NAV — navigation links
+      Contains main links to move around the site.
+      Only use <nav> for MAJOR navigation blocks.
+      Don't use for every group of links.
+    ────────────────────────────────────────────────── -->
+    <nav aria-label="Main navigation">
+      <!-- aria-label: describes the nav for screen readers -->
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/html">HTML</a></li>
+        <li><a href="/css">CSS</a></li>
+        <li><a href="/js">JavaScript</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ========================================================
+    MAIN — the PRIMARY content of the page
+    ONE <main> per page only.
+    Screen readers jump directly here when user skips navigation.
+  ======================================================== -->
+  <main>
+
+    <!-- ──────────────────────────────────────────────────
+      ARTICLE — standalone, independently reusable content
+      Examples: blog post, news article, forum post, product card
+      If you could share this content elsewhere and it makes sense
+      on its own → use <article>
+    ────────────────────────────────────────────────── -->
+    <article>
+      <header>
+        <!-- article can have its own header -->
+        <h2>Understanding JavaScript Closures</h2>
+        <p>
+          Published by <address><a rel="author" href="/rohit">Rohit</a></address>
+          on <time datetime="2026-06-30">June 30, 2026</time>
+        </p>
+        <!-- address = contact info, author info -->
+        <!-- time + datetime = machine-readable date (helps SEO) -->
+      </header>
+
+      <!-- ────────────────────────────────────────────────
+        SECTION — a thematic group within an article or page
+        Sections should have a heading.
+        Use when content is related but could be a chapter/section.
+      ──────────────────────────────────────────────── -->
+      <section>
+        <h3>What is a Closure?</h3>
+        <p>
+          A closure is a function that remembers variables from its outer scope,
+          even after the outer function has finished running.
+        </p>
+        <!-- blockquote — long quotes from external source -->
+        <blockquote cite="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures">
+          <p>
+            A closure is the combination of a function bundled together (enclosed)
+            with references to its surrounding state (the lexical environment).
+          </p>
+          <footer>— MDN Web Docs</footer>
+        </blockquote>
+      </section>
+
+      <section>
+        <h3>Code Example</h3>
+
+        <!-- pre + code — for displaying code -->
+        <!-- pre preserves whitespace and line breaks -->
+        <!-- code marks content as computer code -->
+        <pre><code>
+function makeCounter() {
+  let count = 0;    // this variable is "closed over"
+
+  return function() {
+    count++;
+    return count;
+  };
+}
+
+const counter = makeCounter();
+counter(); // returns 1
+counter(); // returns 2
+        </code></pre>
+      </section>
+
+      <section>
+        <h3>Key Points</h3>
+        <!-- Using proper list for key points -->
+        <ul>
+          <li>Inner function remembers outer function's variables</li>
+          <li>Useful for data privacy and encapsulation</li>
+          <li>Used in memoization, factories, and event handlers</li>
+        </ul>
+      </section>
+
+      <!-- article footer — for tags, share buttons, comments -->
+      <footer>
+        <p>Tags:
+          <a href="/tag/javascript">JavaScript</a>,
+          <a href="/tag/closures">Closures</a>,
+          <a href="/tag/functions">Functions</a>
+        </p>
+      </footer>
+    </article>
+
+    <!-- A second article (this is how a blog index page looks) -->
+    <article>
+      <header>
+        <h2>CSS Flexbox Complete Guide</h2>
+        <p>By Rohit | <time datetime="2026-06-29">June 29, 2026</time></p>
+      </header>
+      <p>Learn how Flexbox makes layouts simple and responsive...</p>
+      <a href="/css-flexbox">Read more →</a>
+    </article>
+
+  </main>
+
+  <!-- ========================================================
+    ASIDE — secondary content related to the main content
+    Examples: sidebar, "related articles", ads, author bio
+    Should be related to but separate from main content
+  ======================================================== -->
+  <aside aria-label="Related articles">
+    <h2>Related Topics</h2>
+    <nav>
+      <ul>
+        <li><a href="/scope">JavaScript Scope</a></li>
+        <li><a href="/hoisting">Hoisting Explained</a></li>
+        <li><a href="/prototype">Prototype Chain</a></li>
+      </ul>
+    </nav>
+
+    <section>
+      <h3>About the Author</h3>
+      <!-- address for contact/author info -->
+      <address>
+        <p>Rohit — Web Developer</p>
+        <p>Email: <a href="mailto:rohit@example.com">rohit@example.com</a></p>
+      </address>
+    </section>
+  </aside>
+
+  <!-- ========================================================
+    FOOTER — bottom of page
+    Contains: copyright, links, contact info, legal stuff
+  ======================================================== -->
+  <footer>
+    <nav aria-label="Footer navigation">
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Service</a></li>
+      </ul>
+    </nav>
+    <p>&copy; <time datetime="2026">2026</time> Rohit. All rights reserved.</p>
+  </footer>
+
+  <!-- ========================================================
+    OTHER SEMANTIC ELEMENTS
+  ======================================================== -->
+
+  <!-- figure + figcaption — image with its caption -->
+  <figure>
+    <img src="https://via.placeholder.com/400x200" alt="Closure diagram" />
+    <figcaption>Figure 1: How closures work in JavaScript</figcaption>
+  </figure>
+
+  <!-- details + summary — accordion / expandable content -->
+  <details>
+    <summary>Click to see a quick tip</summary>
+    <p>Always use let/const instead of var in modern JavaScript!</p>
+  </details>
+
+  <details open>
+    <!-- open attribute: expanded by default -->
+    <summary>Another tip (open by default)</summary>
+    <p>Use semantic HTML for better accessibility and SEO.</p>
+  </details>
+
+  <!-- mark — highlight text (like a yellow marker) -->
+  <p>The most important rule is to always write <mark>clean, readable code</mark>.</p>
+
+  <!-- abbr — abbreviation with full form on hover -->
+  <p>
+    <abbr title="HyperText Markup Language">HTML</abbr> is the structure,
+    <abbr title="Cascading Style Sheets">CSS</abbr> is the style, and
+    <abbr title="JavaScript">JS</abbr> is the behavior.
+  </p>
+
+  <!-- progress — progress bar -->
+  <label for="html-progress">HTML Learning Progress:</label>
+  <progress id="html-progress" value="75" max="100">75%</progress>
+
+  <!-- meter — a value within a known range -->
+  <label for="skill">JavaScript Skill Level:</label>
+  <meter id="skill" value="0.6" min="0" max="1" low="0.3" high="0.8" optimum="1">
+    60%
+  </meter>
+
+  <!--
+  INTERVIEW Q&A:
+  ==============
+  Q: What is the difference between <article> and <section>?
+  A: article → standalone content that makes sense on its own (share it)
+     section  → thematic group with a heading, part of a larger context.
+     A section can contain articles. An article can contain sections.
+
+  Q: What is the difference between <div> and semantic tags?
+  A: <div> has no meaning — just a container.
+     Semantic tags (header, nav, main, footer, article, section) describe
+     the PURPOSE of the content. They help SEO, screen readers, and devs.
+
+  Q: Can a page have multiple <header> and <footer>?
+  A: YES! <header> and <footer> can appear inside articles/sections.
+     But there should only be ONE <main> per page.
+
+  Q: What is ARIA?
+  A: Accessible Rich Internet Applications.
+     ARIA attributes (aria-label, aria-describedby, role, etc.) add
+     extra information for screen readers when HTML alone isn't enough.
+     aria-label="Main navigation" tells screen readers the nav's purpose.
+
+  Q: What is the purpose of <time datetime="...">?
+  A: The text inside <time> is what humans see.
+     The datetime attribute is what machines read.
+     datetime="2026-06-30" → standard ISO 8601 format for dates.
+     Helps search engines and calendar apps understand dates.
+
+  Q: What is the difference between <strong> and <b>, <em> and <i>?
+  A: <b>/<i>    → only visual (bold/italic), no semantic meaning
+     <strong>/<em> → semantic meaning (important/emphasized) + visual
+     Always prefer semantic tags over purely visual ones.
+  -->
+
+</body>
+</html>

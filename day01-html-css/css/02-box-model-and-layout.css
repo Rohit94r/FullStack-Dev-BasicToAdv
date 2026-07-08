@@ -1,0 +1,367 @@
+/*
+  ============================================================
+  CSS — File 2: Box Model, Display & Positioning
+  Level: Beginner → Intermediate → Interview Level
+  ============================================================
+*/
+
+/* ==========================================================
+   SECTION 1: THE BOX MODEL
+   EVERY element in CSS is a RECTANGULAR BOX.
+   The box has 4 layers from inside out:
+
+   ┌─────────────────────────────────────────┐
+   │              MARGIN (transparent)        │  ← outside the box, pushes away other elements
+   │  ┌───────────────────────────────────┐  │
+   │  │            BORDER                 │  │  ← visible edge of the box
+   │  │  ┌─────────────────────────────┐  │  │
+   │  │  │         PADDING             │  │  │  ← space INSIDE the border, around content
+   │  │  │  ┌───────────────────────┐  │  │  │
+   │  │  │  │      CONTENT          │  │  │  │  ← actual text/image/children
+   │  │  │  │   (width × height)    │  │  │  │
+   │  │  │  └───────────────────────┘  │  │  │
+   │  │  └─────────────────────────────┘  │  │
+   │  └───────────────────────────────────┘  │
+   └─────────────────────────────────────────┘
+
+   width/height → size of the CONTENT area (by default)
+   padding      → inside spacing (pushes content away from border)
+   border       → the visible line around the box
+   margin       → outside spacing (space from other elements)
+   ========================================================== */
+
+.box-model-demo {
+  width: 300px;              /* content width */
+  height: 100px;             /* content height */
+
+  /* PADDING — space inside the border */
+  padding: 20px;             /* all 4 sides */
+  padding: 10px 20px;        /* top/bottom=10px, left/right=20px */
+  padding: 10px 20px 15px;   /* top=10, left/right=20, bottom=15 */
+  padding: 5px 10px 15px 20px; /* top right bottom left (clockwise) */
+  padding-top:    10px;
+  padding-right:  20px;
+  padding-bottom: 10px;
+  padding-left:   20px;
+
+  /* BORDER */
+  border: 2px solid #333;    /* width style color — shorthand */
+  border-width: 2px;
+  border-style: solid;       /* solid, dashed, dotted, double, none */
+  border-color: #333;
+  border-top:    2px solid red;
+  border-bottom: 1px dashed blue;
+  border-radius: 8px;        /* rounded corners */
+  border-radius: 50%;        /* circle (when width = height) */
+
+  /* MARGIN — space outside the border */
+  margin: 20px;              /* all sides */
+  margin: 10px auto;         /* top/bottom=10, left/right=auto → CENTERS the element! */
+  margin-top:    10px;
+  margin-right:  20px;
+  margin-bottom: 10px;
+  margin-left:   20px;
+  margin: 0;                 /* remove all margins */
+}
+
+/* ==========================================================
+   SECTION 2: box-sizing — THE MOST IMPORTANT CSS RULE!
+
+   Default: box-sizing: content-box
+   width applies to CONTENT only.
+   Total visual width = width + padding + border
+
+   With: box-sizing: border-box  (USE THIS!)
+   width includes padding AND border.
+   Total visual width = width (padding and border fit inside)
+   ========================================================== */
+
+/* Example with content-box (default — confusing!) */
+.content-box {
+  box-sizing: content-box; /* default */
+  width: 300px;
+  padding: 20px;
+  border: 5px solid black;
+  /* Actual rendered width = 300 + 20+20 + 5+5 = 350px ← SURPRISE! */
+}
+
+/* Example with border-box (recommended!) */
+.border-box {
+  box-sizing: border-box;  /* better! */
+  width: 300px;
+  padding: 20px;
+  border: 5px solid black;
+  /* Actual rendered width = 300px exactly (padding/border fit inside) */
+}
+
+/* Apply border-box to EVERYTHING — best practice */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================
+   SECTION 3: DISPLAY PROPERTY
+   Controls how an element BEHAVES in the layout.
+   ========================================================== */
+
+/* ── block ────────────────────────────────────────────────
+   - Takes FULL width of parent (stretches)
+   - Starts on a NEW LINE
+   - Can set width and height
+   Examples: div, p, h1-h6, section, ul, ol, li
+*/
+.display-block {
+  display: block;
+  width: 50%;        /* works on block elements */
+  margin: 0 auto;    /* center with auto margins */
+}
+
+/* ── inline ───────────────────────────────────────────────
+   - Takes only as much width as content needs
+   - Stays IN THE FLOW of text (no new line)
+   - CANNOT set width/height
+   - top/bottom margin/padding has limited effect
+   Examples: span, a, strong, em, img, input
+*/
+.display-inline {
+  display: inline;
+  /* width: 100px; ← this doesn't work on inline! */
+}
+
+/* ── inline-block ─────────────────────────────────────────
+   BEST OF BOTH:
+   - Stays in text flow (like inline)
+   - CAN set width and height (like block)
+   Use for: buttons, badges, nav items
+*/
+.display-inline-block {
+  display: inline-block;
+  width: 100px;    /* works! */
+  height: 50px;    /* works! */
+  padding: 10px;
+  text-align: center;
+}
+
+/* ── none ─────────────────────────────────────────────────
+   Completely removes element — not visible, takes NO SPACE.
+   vs visibility: hidden → invisible but STILL TAKES SPACE.
+*/
+.hidden-display {
+  display: none;         /* removed from layout completely */
+}
+
+.hidden-visibility {
+  visibility: hidden;    /* invisible but space is still reserved */
+}
+
+/* ── flex ─────────────────────────────────────────────────
+   Enables Flexbox on the element (its children become flex items)
+   → See 03-flexbox.css
+*/
+.flex-container {
+  display: flex;
+}
+
+/* ── grid ─────────────────────────────────────────────────
+   Enables CSS Grid on the element
+   → See 04-grid-responsive.css
+*/
+.grid-container {
+  display: grid;
+}
+
+/* ==========================================================
+   SECTION 4: POSITIONING
+   Controls where an element is placed on the page.
+   ========================================================== */
+
+/* ── static (DEFAULT) ────────────────────────────────────
+   Normal document flow.
+   top/left/right/bottom have NO effect.
+*/
+.position-static {
+  position: static; /* default — you almost never need to write this */
+}
+
+/* ── relative ────────────────────────────────────────────
+   Positioned relative to its NORMAL position.
+   Other elements are NOT affected (it still takes up its original space).
+   top/left/right/bottom offset it FROM where it would normally be.
+   MOST COMMON use: create a positioning CONTEXT for absolute children.
+*/
+.position-relative {
+  position: relative;
+  top: 10px;    /* moves DOWN 10px from where it normally sits */
+  left: 20px;   /* moves RIGHT 20px from where it normally sits */
+}
+
+/* ── absolute ────────────────────────────────────────────
+   Removed from document flow (no space reserved).
+   Positioned relative to NEAREST ancestor with position: relative/absolute/fixed.
+   If no such ancestor → positioned relative to <html>.
+   top/left/right/bottom = distance from that ancestor's edges.
+
+   CLASSIC PATTERN:
+   parent { position: relative; }
+   child  { position: absolute; top: 0; right: 0; } ← sticks to parent corner
+*/
+.parent-container {
+  position: relative;  /* anchor for absolute children */
+  width: 300px;
+  height: 200px;
+  background: #f0f0f0;
+}
+
+.child-absolute {
+  position: absolute;
+  top: 0;           /* 0px from top of parent */
+  right: 0;         /* 0px from right of parent */
+  /* This creates an overlay/badge in the top-right corner */
+  background: red;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Centering with absolute: */
+.centered-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* move back by half its own size */
+}
+
+/* ── fixed ───────────────────────────────────────────────
+   Removed from document flow.
+   Positioned relative to the VIEWPORT (browser window).
+   STAYS IN PLACE when you scroll — doesn't move!
+   Use for: sticky headers, floating buttons, cookie banners
+*/
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;     /* full width */
+  z-index: 100;    /* stay on top of other content */
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 24px;    /* 24px from bottom of viewport */
+  right: 24px;     /* 24px from right of viewport */
+  /* "scroll to top" buttons use this */
+}
+
+/* ── sticky ──────────────────────────────────────────────
+   Hybrid of relative and fixed.
+   Behaves RELATIVE until it hits the threshold (top: 0),
+   then becomes FIXED and sticks while you scroll.
+   Returns to normal when parent element leaves viewport.
+   Use for: sticky table headers, sticky nav sections
+*/
+.sticky-nav {
+  position: sticky;
+  top: 0;          /* sticks when it reaches 0px from top */
+  background: white;
+  z-index: 10;
+}
+
+/* ==========================================================
+   SECTION 5: Z-INDEX
+   Controls stacking order when elements overlap.
+   Higher z-index = appears on TOP.
+   Only works on positioned elements (not static).
+   ========================================================== */
+
+.layer-1 { z-index: 1; }    /* bottom */
+.layer-2 { z-index: 2; }    /* middle */
+.layer-3 { z-index: 3; }    /* top */
+.layer-modal { z-index: 1000; } /* modals always on top */
+
+/* ==========================================================
+   SECTION 6: OVERFLOW
+   What happens when content is BIGGER than its container?
+   ========================================================== */
+
+.overflow-demo {
+  width: 200px;
+  height: 100px;
+
+  overflow: visible;  /* default: content spills out */
+  overflow: hidden;   /* clips content — nothing shows outside */
+  overflow: scroll;   /* adds scrollbar always */
+  overflow: auto;     /* adds scrollbar only when needed (best) */
+
+  /* Different for each axis */
+  overflow-x: hidden;   /* horizontal: hide */
+  overflow-y: auto;     /* vertical: scroll when needed */
+}
+
+/* ==========================================================
+   SECTION 7: SIZING UNITS — COMPLETE GUIDE
+   ========================================================== */
+
+.sizing-units {
+  /* ABSOLUTE units — fixed size */
+  width: 300px;    /* pixels — most used absolute unit */
+  width: 2cm;      /* centimeters */
+  width: 20mm;     /* millimeters */
+  width: 1in;      /* inches */
+
+  /* RELATIVE units — relative to something else */
+  width: 50%;      /* 50% of PARENT's width */
+  width: 100vw;    /* 100% of viewport WIDTH */
+  height: 100vh;   /* 100% of viewport HEIGHT */
+  width: 50vmin;   /* 50% of smaller dimension (min of vw, vh) */
+  width: 50vmax;   /* 50% of larger dimension */
+
+  /* Typography-relative units */
+  font-size: 1em;   /* 1x PARENT's font-size */
+  font-size: 1rem;  /* 1x ROOT (<html>) font-size → MOST PREDICTABLE! */
+  font-size: 1.5rem;/* 1.5x root = 24px if root is 16px */
+
+  /* Modern viewport units (2023+) */
+  height: 100dvh;  /* dynamic viewport height (accounts for mobile browser bars) */
+}
+
+/*
+  INTERVIEW Q&A:
+  ==============
+  Q: What is the CSS Box Model?
+  A: Every element is a box with 4 layers: content, padding, border, margin.
+     Total element space = content + padding + border + margin.
+
+  Q: What is box-sizing: border-box?
+  A: Makes width/height include padding and border.
+     Total rendered width = exactly what you set as width.
+     Apply to *, *::before, *::after globally — always do this.
+
+  Q: What is the difference between padding and margin?
+  A: Padding → space INSIDE the border (between content and border).
+               Has background color.
+     Margin  → space OUTSIDE the border (between this element and others).
+               Transparent — never has background color.
+
+  Q: What is margin collapse?
+  A: When two vertical margins touch, they MERGE into one.
+     Top margin 20px + bottom margin 30px → 30px (not 50px!)
+     Doesn't happen with padding, or with flex/grid containers.
+
+  Q: What is the difference between position: absolute and fixed?
+  A: absolute → positioned relative to nearest positioned ancestor.
+               Scrolls with the page.
+     fixed    → positioned relative to the viewport.
+               STAYS FIXED when scrolling. (navbar, FAB button)
+
+  Q: What is the difference between display: none and visibility: hidden?
+  A: display: none      → element removed from layout. Takes NO space.
+     visibility: hidden → element invisible but STILL TAKES UP space.
+
+  Q: When to use em vs rem?
+  A: rem is almost always better — predictable, doesn't compound.
+     em is useful for component-level scaling (icon size relative to text).
+*/

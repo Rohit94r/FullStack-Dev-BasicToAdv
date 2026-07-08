@@ -1,0 +1,296 @@
+/* =============================================================================
+   DAY 1 PROJECT — Portfolio Styles (fill-in-the-blank)
+   Fill every TODO. Link this file from index.html. Test at 375 / 768 / 1280px.
+   ============================================================================= */
+
+/* ── CSS VARIABLES (design tokens) ───────────────────────────────────────── */
+
+:root {
+
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #f1f5f9;
+  --color-muted: #94a3b8;
+  --color-accent: #38bdf8;
+  --color-accent-hover: #0ea5e9;
+  
+
+  --color-bg: #111;
+  --color-surface: #222;
+  --color-text: #eee;
+  --color-muted: #999;
+  --color-accent: #4af;
+  --color-accent-hover: #29f;
+
+  /* TODO: Spacing scale (--space-xs through --space-xl) */
+  /* YOUR IDEA: _________________________________________________ */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+
+  /* TODO: Typography (--font-body, --font-heading, --line-height) */
+  --font-body: system-ui, sans-serif;
+  --font-heading: system-ui, sans-serif;
+  --line-height: 1.6;
+
+  /* TODO: Layout (--max-width, --nav-height) */
+  --max-width: 72rem;
+  --nav-height: 4rem;
+}
+
+/* TODO (bonus): Dark theme via prefers-color-scheme — override variables */
+/* YOUR IDEA: _________________________________________________ */
+/* @media (prefers-color-scheme: light) { :root { ... } } */
+
+/* ── RESET / BASE ──────────────────────────────────────────────────────────── */
+
+/* TODO: Apply box-sizing: border-box to all elements */
+/* ANSWER: *, *::before, *::after { box-sizing: border-box; } */
+*,
+*::before,
+*::after {
+  /* TODO: box-sizing: ______; */
+}
+
+/* TODO: Remove default margin on body; set font, color, background */
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* TODO: Style headings (font-family, line-height, margin) */
+h1,
+h2,
+h3 {
+  /* YOUR IDEA: _________________________________________________ */
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+/* ── UTILITIES ───────────────────────────────────────────────────────────────── */
+
+.container {
+  width: min(100% - 2rem, var(--max-width));
+  margin-inline: auto;
+}
+
+/* TODO: Style .btn and .btn--primary (padding, border-radius, transition) */
+.btn {
+  /* YOUR IDEA: _________________________________________________ */
+}
+
+.btn--primary {
+  /* YOUR IDEA: _________________________________________________ */
+}
+
+/* ── SKIP LINK (accessibility) ───────────────────────────────────────────────── */
+
+.skip-link {
+  /* TODO: Position off-screen until :focus (position absolute, top, left, z-index) */
+  /* ANSWER: position: absolute; top: -100%; left: 0; z-index: 9999; padding: ... */
+}
+
+.skip-link:focus {
+  /* TODO: Bring into view on focus */
+}
+
+/* ── NAV (sticky + flexbox) ──────────────────────────────────────────────────── */
+
+header {
+  /* TODO: position: sticky; top: 0; z-index; background; border-bottom */
+  /* YOUR IDEA: _________________________________________________ */
+}
+
+nav {
+  /* TODO: Flexbox — space-between, align center, max-width container, height */
+  display: flex;
+  /* TODO: justify-content: ______; align-items: ______; */
+  /* TODO: padding, height: var(--nav-height) */
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.nav-links {
+  /* TODO: Flexbox row, remove list bullets, gap between items */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  /* TODO: gap: ______; */
+}
+
+/* ── HERO ────────────────────────────────────────────────────────────────────── */
+
+.hero {
+  /* TODO: Min-height ~80vh, flexbox center (both axes), text-align center */
+  /* TODO: padding var(--space-xl) */
+  /* YOUR IDEA: _________________________________________________ */
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+}
+
+/* TODO (bonus): @keyframes fadeInUp — animate hero children on load */
+/* YOUR IDEA: _________________________________________________ */
+/* @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } ... } */
+
+.hero h1 {
+  /* TODO: Large font-size (clamp for responsive), optional animation */
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.hero__subtitle {
+  color: var(--color-muted);
+  font-size: 1.25rem;
+}
+
+/* ── ABOUT (media object) ────────────────────────────────────────────────────── */
+
+.about {
+  padding: var(--space-xl) var(--space-md);
+}
+
+.about__grid {
+  /* TODO: CSS Grid or Flexbox — image + text side by side on desktop */
+  /* TODO: Stack vertically on mobile (media query or grid auto-fit) */
+  /* YOUR IDEA: _________________________________________________ */
+  display: grid;
+  gap: var(--space-lg);
+  /* ANSWER (desktop): grid-template-columns: 1fr 2fr; align-items: start; */
+}
+
+.about__photo img {
+  border-radius: 0.5rem;
+}
+
+/* ── SKILLS (CSS Grid auto-fill — NO media query for column count!) ──────────── */
+
+.skills {
+  padding: var(--space-xl) var(--space-md);
+  background-color: var(--color-surface);
+}
+
+.skills__grid {
+  /* TODO: display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap */
+  /* YOUR IDEA: _________________________________________________ */
+  display: grid;
+  /* TODO: grid-template-columns: repeat(auto-fill, minmax(______, 1fr)); */
+  gap: var(--space-md);
+}
+
+.skill-card {
+  /* TODO: Padding, background, border-radius, optional border */
+  padding: var(--space-md);
+  background: var(--color-bg);
+  border-radius: 0.5rem;
+}
+
+/* ── PROJECTS (cards + hover) ────────────────────────────────────────────────── */
+
+.projects {
+  padding: var(--space-xl) var(--space-md);
+}
+
+.projects__grid {
+  /* TODO: Responsive grid — 1 col mobile, 2–3 cols desktop */
+  /* YOUR IDEA: _________________________________________________ */
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.project-card {
+  /* TODO: Surface background, border-radius, overflow hidden */
+  /* TODO: transition on transform/box-shadow for hover effect */
+  background: var(--color-surface);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+  /* TODO: transform: translateY(-4px); box-shadow: ... */
+  /* YOUR IDEA: _________________________________________________ */
+}
+
+/* ── CONTACT FORM ────────────────────────────────────────────────────────────── */
+
+.contact {
+  padding: var(--space-xl) var(--space-md);
+}
+
+.contact__form {
+  /* TODO: Max-width ~32rem, display grid, gap between fields */
+  max-width: 32rem;
+  display: grid;
+  gap: var(--space-md);
+}
+
+/* TODO: Style label, input, textarea (width 100%, padding, border, focus ring) */
+.contact__form label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.contact__form input,
+.contact__form textarea {
+  /* YOUR IDEA: _________________________________________________ */
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-muted);
+  border-radius: 0.25rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.contact__form input:focus,
+.contact__form textarea:focus {
+  /* TODO: outline or box-shadow focus ring using --color-accent */
+}
+
+/* ── FOOTER ──────────────────────────────────────────────────────────────────── */
+
+.site-footer {
+  padding: var(--space-lg) var(--space-md);
+  text-align: center;
+  color: var(--color-muted);
+  border-top: 1px solid var(--color-surface);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────────────── */
+
+/* TODO: @media (max-width: 768px) — stack nav, adjust hero padding, etc. */
+/* YOUR IDEA: _________________________________________________ */
+@media (max-width: 768px) {
+  nav {
+    /* TODO: flex-direction column or wrap nav links */
+  }
+
+  .about__grid {
+    /* TODO: single column */
+  }
+}

@@ -1,0 +1,309 @@
+/*
+  ============================================================
+  CSS — File 3: Flexbox — Complete Guide
+  Level: Beginner → Advanced → Interview Level
+
+  WHAT IS FLEXBOX?
+  Flexbox = Flexible Box Layout
+  It's a ONE-DIMENSIONAL layout system:
+  - Arrange items in a ROW (horizontal)  ← main axis
+  - OR arrange items in a COLUMN (vertical)
+  - Items can grow, shrink, and align easily
+
+  TERMS:
+  - Flex Container = the parent element with display: flex
+  - Flex Items     = the direct children of the container
+  - Main axis      = direction of flex (row → horizontal, column → vertical)
+  - Cross axis     = perpendicular to main axis
+
+  TWO SETS OF PROPERTIES:
+  1. Container properties → applied to the PARENT
+  2. Item properties      → applied to the CHILDREN
+  ============================================================
+*/
+
+/* ==========================================================
+   SECTION 1: CONTAINER PROPERTIES
+   (applied to the PARENT element)
+   ========================================================== */
+
+/* ── flex-direction — which DIRECTION items flow ──────────
+   row         → left to right (DEFAULT)
+   row-reverse → right to left
+   column      → top to bottom
+   column-reverse → bottom to top
+*/
+.row-layout    { display: flex; flex-direction: row; }
+.column-layout { display: flex; flex-direction: column; }
+
+/*
+  ROW: [item1] [item2] [item3]  →  main axis: →  cross axis: ↓
+  COLUMN:
+  [item1]
+  [item2]   → main axis: ↓  cross axis: →
+  [item3]
+*/
+
+/* ── flex-wrap — do items wrap to next line? ──────────────
+   nowrap (DEFAULT) → all items in ONE line, may overflow
+   wrap             → items wrap to next line when no space
+   wrap-reverse     → wrap but in reverse direction
+*/
+.no-wrap     { display: flex; flex-wrap: nowrap; }
+.do-wrap     { display: flex; flex-wrap: wrap; }
+
+/* Shorthand: flex-direction + flex-wrap combined */
+.row-wrap    { display: flex; flex-flow: row wrap; }
+.col-nowrap  { display: flex; flex-flow: column nowrap; }
+
+/* ── justify-content — alignment along MAIN AXIS ──────────
+   Controls how items are distributed along the main axis.
+   (horizontal in row, vertical in column)
+
+   flex-start     → items at START (left in row)     [xxx___]
+   flex-end       → items at END (right in row)       [___xxx]
+   center         → items in CENTER                   [_xxx__]
+   space-between  → equal space BETWEEN items        [x__x__x]
+   space-around   → equal space AROUND each item     [_x_x_x_]
+   space-evenly   → equal space between AND ends     [_x_x_x_] (more even)
+*/
+.justify-start   { display: flex; justify-content: flex-start; }
+.justify-end     { display: flex; justify-content: flex-end; }
+.justify-center  { display: flex; justify-content: center; }
+.justify-between { display: flex; justify-content: space-between; }
+.justify-around  { display: flex; justify-content: space-around; }
+.justify-evenly  { display: flex; justify-content: space-evenly; }
+
+/* ── align-items — alignment along CROSS AXIS ─────────────
+   Controls how items are aligned perpendicular to main axis.
+   (vertical in row, horizontal in column)
+
+   stretch  → items stretch to fill container height (DEFAULT)
+   flex-start → items at top (in row)
+   flex-end   → items at bottom (in row)
+   center     → items vertically centered (in row)
+   baseline   → items aligned by their text baseline
+*/
+.align-stretch   { display: flex; align-items: stretch; }
+.align-start     { display: flex; align-items: flex-start; }
+.align-end       { display: flex; align-items: flex-end; }
+.align-center    { display: flex; align-items: center; }
+.align-baseline  { display: flex; align-items: baseline; }
+
+/* ── PERFECT CENTERING (most used pattern!) ───────────────
+   Center BOTH horizontally AND vertically.
+   This is a very common interview question!
+*/
+.perfect-center {
+  display: flex;
+  justify-content: center;   /* horizontal center */
+  align-items: center;       /* vertical center */
+  height: 100vh;             /* need height for vertical centering to work */
+}
+
+/* ── align-content — alignment of MULTIPLE ROWS ──────────
+   Only applies when flex-wrap: wrap AND there are multiple lines.
+   Controls how the rows are distributed in the container.
+   (similar values to justify-content)
+*/
+.multi-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;   /* rows start at top */
+  align-content: center;       /* rows in middle */
+  align-content: space-between;/* space between rows */
+}
+
+/* ── gap — space BETWEEN items ────────────────────────────
+   Much better than using margin on items!
+*/
+.gap-demo {
+  display: flex;
+  gap: 16px;              /* same gap in both directions */
+  gap: 16px 24px;         /* row-gap: 16px, column-gap: 24px */
+  row-gap: 16px;          /* only between rows */
+  column-gap: 24px;       /* only between columns */
+}
+
+/* ==========================================================
+   SECTION 2: FLEX ITEM PROPERTIES
+   (applied to the CHILDREN)
+   ========================================================== */
+
+/* ── flex-grow — how much item GROWS to fill space ────────
+   0 → don't grow (default)
+   1 → grow to fill available space
+   2 → grow twice as much as items with flex-grow: 1
+*/
+.item-no-grow  { flex-grow: 0; }  /* stays its natural size */
+.item-grow     { flex-grow: 1; }  /* takes all available space */
+
+/* Example: sidebar + content layout */
+.sidebar { flex-grow: 0; width: 250px; }  /* fixed width sidebar */
+.content { flex-grow: 1; }               /* content takes remaining space */
+
+/* ── flex-shrink — how much item SHRINKS if not enough space
+   1 → can shrink (default)
+   0 → NEVER shrinks (keeps its size)
+*/
+.no-shrink { flex-shrink: 0; }  /* item won't get smaller */
+.can-shrink { flex-shrink: 1; } /* item can get smaller if needed */
+
+/* ── flex-basis — INITIAL size of item before growing/shrinking
+   auto → use width/height (default)
+   0    → start from nothing
+   200px → start at 200px, then grow/shrink from there
+*/
+.basis-auto { flex-basis: auto; }
+.basis-200  { flex-basis: 200px; }
+.basis-third { flex-basis: calc(33.333% - 16px); } /* third of container */
+
+/* ── flex shorthand — grow shrink basis combined ──────────
+   flex: grow shrink basis
+*/
+.flex-1    { flex: 1; }        /* flex: 1 1 0 — grow, shrink, start from 0 */
+.flex-auto { flex: auto; }     /* flex: 1 1 auto */
+.flex-none { flex: none; }     /* flex: 0 0 auto — don't grow or shrink */
+.flex-half { flex: 0 0 50%; }  /* don't grow, don't shrink, start at 50% */
+
+/* ── align-self — override container's align-items for ONE item
+   auto (default), flex-start, flex-end, center, stretch, baseline
+*/
+.aligned-top    { align-self: flex-start; }
+.aligned-bottom { align-self: flex-end; }
+.aligned-center { align-self: center; }
+.aligned-stretch { align-self: stretch; }
+
+/* ── order — change visual ORDER without changing HTML ─────
+   default: 0
+   lower order = appears earlier
+   negative values are allowed
+*/
+.first  { order: -1; }  /* appears first */
+.last   { order: 1; }   /* appears last */
+.middle { order: 0; }   /* default position */
+
+/* ==========================================================
+   SECTION 3: REAL-WORLD FLEXBOX PATTERNS
+   (Most common layouts you'll build)
+   ========================================================== */
+
+/* ── Pattern 1: Navigation Bar ────────────────────────────
+   Logo on left, links on right
+*/
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* logo left, links right */
+  padding: 0 24px;
+  height: 60px;
+  background: #2c3e50;
+}
+.navbar-logo { color: white; font-size: 24px; }
+.navbar-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+.navbar-links a { color: white; text-decoration: none; }
+
+/* ── Pattern 2: Card Grid (responsive) ───────────────────
+   Cards wrap to next line when not enough space
+*/
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 24px;
+}
+.card {
+  flex: 1 1 280px; /* grow, shrink, start at 280px minimum */
+  /* This creates a responsive grid without media queries! */
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ── Pattern 3: Media Object ─────────────────────────────
+   Image on left, text on right (like Twitter card, news card)
+*/
+.media-object {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.media-image {
+  flex-shrink: 0;       /* image doesn't shrink */
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;   /* circle avatar */
+  object-fit: cover;    /* image fills without distortion */
+}
+.media-content { flex: 1; }
+
+/* ── Pattern 4: Holy Grail Layout ────────────────────────
+   Classic header/footer + sidebar/content layout
+*/
+.holy-grail {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.hg-header { background: #2c3e50; color: white; padding: 20px; }
+.hg-body   { display: flex; flex: 1; }
+.hg-nav    { flex: 0 0 200px; background: #34495e; color: white; padding: 20px; }
+.hg-main   { flex: 1; padding: 20px; }
+.hg-aside  { flex: 0 0 180px; background: #f5f5f5; padding: 20px; }
+.hg-footer { background: #2c3e50; color: white; padding: 20px; text-align: center; }
+
+/* ── Pattern 5: Equal-height columns ─────────────────────
+   All children same height (flex does this automatically!)
+*/
+.equal-height {
+  display: flex;
+  gap: 24px;
+  align-items: stretch; /* default — children stretch to tallest */
+}
+
+/* ── Pattern 6: Sticky footer ────────────────────────────
+   Footer always at bottom, even with little content
+*/
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.page-main   { flex: 1; }  /* main content grows to push footer down */
+.page-footer { /* stays at bottom */ }
+
+/*
+  INTERVIEW Q&A:
+  ==============
+  Q: What is the difference between justify-content and align-items?
+  A: justify-content → aligns along MAIN axis (horizontal in row layout)
+     align-items     → aligns along CROSS axis (vertical in row layout)
+     They flip when flex-direction is column.
+
+  Q: How do you center an element with Flexbox?
+  A: Parent: display: flex; justify-content: center; align-items: center;
+     This centers children both horizontally and vertically.
+
+  Q: What is flex: 1?
+  A: Shorthand for flex: 1 1 0 (grow: 1, shrink: 1, basis: 0).
+     The item will take all available space, sharing equally with siblings.
+
+  Q: What is the difference between flex-grow, flex-shrink, flex-basis?
+  A: flex-grow   → how much item grows when there's EXTRA space (0 = don't grow)
+     flex-shrink → how much item shrinks when NOT enough space (0 = don't shrink)
+     flex-basis  → initial size before growing/shrinking
+
+  Q: How is gap better than margin for flex items?
+  A: gap applies space BETWEEN items only (not outside the group).
+     margin applies to all sides — you'd need :first-child/:last-child tricks.
+
+  Q: When to use Flexbox vs Grid?
+  A: Flexbox → 1D layouts: navbars, card rows, single-direction layouts.
+     Grid    → 2D layouts: full page layouts, complex grids, both axes needed.
+     They complement each other — use both!
+*/

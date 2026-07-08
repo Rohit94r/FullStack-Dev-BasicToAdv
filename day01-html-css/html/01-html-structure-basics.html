@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  HTML BASICS — File 1: Structure & Core Concepts
+  Level: Absolute Beginner → Intermediate
+  Open this file in a browser to see the result!
+  ============================================================
+
+  WHAT IS HTML?
+  HTML = HyperText Markup Language
+  It is the SKELETON of every webpage — the structure/content.
+  Think of it like the bones of a human body.
+  - HTML  = bones (structure)
+  - CSS   = skin & clothes (looks)
+  - JS    = brain & muscles (behavior)
+
+  HTML uses TAGS to describe content.
+  A tag looks like: <tagname>content</tagname>
+  Most tags have: OPENING tag <p> and CLOSING tag </p>
+  Some tags are self-closing: <img />, <br />, <input />
+-->
+
+<!-- DOCTYPE tells browser: "this is an HTML5 document" -->
+<!-- Always put this on line 1 — required! -->
+<html lang="en">
+  <!--
+    lang="en" tells:
+    - Screen readers what language to use
+    - Search engines the content language
+    - Browsers which dictionary to suggest
+  -->
+
+  <!-- ======================================================
+    HEAD SECTION
+    Contains INFO about the page — NOT visible to users.
+    Think of it as the "settings" of the page.
+  ====================================================== -->
+  <head>
+    <!-- Charset: tells browser to use UTF-8 encoding -->
+    <!-- UTF-8 supports all languages, emojis, special characters -->
+    <meta charset="UTF-8" />
+
+    <!-- Viewport: makes the page mobile-responsive -->
+    <!-- width=device-width → use the device's actual width -->
+    <!-- initial-scale=1.0 → don't zoom in/out on load -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Description: shown in Google search results under the title -->
+    <meta name="description" content="Learning HTML from basics to advanced" />
+
+    <!-- Author: who made this page -->
+    <meta name="author" content="Rohit" />
+
+    <!-- Keywords: helps SEO (search engine optimization) -->
+    <meta name="keywords" content="HTML, learning, web development" />
+
+    <!-- Open Graph: controls how page looks when shared on social media -->
+    <meta property="og:title" content="Learning HTML" />
+    <meta property="og:description" content="Complete HTML guide" />
+
+    <!-- Title: shown in browser tab and Google results -->
+    <title>Learning HTML - Day 1</title>
+
+    <!-- Link to external CSS file (we'll create this later) -->
+    <!-- <link rel="stylesheet" href="../css/01-selectors-properties.css" /> -->
+
+    <!-- Link to favicon (the small icon in browser tab) -->
+    <!-- <link rel="icon" type="image/png" href="favicon.png" /> -->
+  </head>
+
+  <!-- ======================================================
+    BODY SECTION
+    Everything VISIBLE to the user goes here.
+    This is the actual webpage content.
+  ====================================================== -->
+  <body>
+
+    <!-- ─────────────────────────────────────────────────────
+      HEADINGS: h1 to h6
+      h1 = biggest, most important (like a book title)
+      h6 = smallest, least important
+      Rule: ONE h1 per page (for SEO)
+      They look like different sizes of text
+    ───────────────────────────────────────────────────── -->
+    <h1>This is Heading 1 — The Main Title</h1>
+    <h2>This is Heading 2 — Section Title</h2>
+    <h3>This is Heading 3 — Sub-section</h3>
+    <h4>This is Heading 4</h4>
+    <h5>This is Heading 5</h5>
+    <h6>This is Heading 6 — Smallest</h6>
+
+    <!-- ─────────────────────────────────────────────────────
+      PARAGRAPHS & TEXT FORMATTING
+    ───────────────────────────────────────────────────── -->
+    <!-- p = paragraph — most common tag for text content -->
+    <p>This is a paragraph. Browsers automatically add spacing above and below paragraphs.</p>
+
+    <p>
+      <!-- b = bold (just visual, no meaning) -->
+      <b>Bold text</b> vs
+      <!-- strong = bold + semantic meaning ("important!") -->
+      <strong>Strong text (important)</strong>
+    </p>
+
+    <p>
+      <!-- i = italic (just visual) -->
+      <i>Italic text</i> vs
+      <!-- em = italic + semantic meaning ("emphasis") -->
+      <em>Emphasized text</em>
+    </p>
+
+    <p>
+      <!-- u = underline -->
+      <u>Underlined text</u>
+
+      <!-- mark = highlighted (yellow background) -->
+      <mark>Highlighted text</mark>
+
+      <!-- del = strikethrough (deleted text) -->
+      <del>Deleted text</del>
+
+      <!-- ins = underlined (inserted text) -->
+      <ins>Inserted text</ins>
+
+      <!-- sub = subscript (H₂O) -->
+      H<sub>2</sub>O
+
+      <!-- sup = superscript (x²) -->
+      x<sup>2</sup>
+    </p>
+
+    <!-- br = line break (self-closing, no content needed) -->
+    <p>First line<br />Second line (after br)</p>
+
+    <!-- hr = horizontal rule — a divider line -->
+    <hr />
+
+    <!-- ─────────────────────────────────────────────────────
+      LINKS (anchor tags)
+      href = "hypertext reference" — where to go
+    ───────────────────────────────────────────────────── -->
+
+    <!-- External link — opens another website -->
+    <a href="https://www.google.com">Go to Google</a>
+
+    <!-- Open in new tab — target="_blank" -->
+    <!-- rel="noopener noreferrer" = security best practice -->
+    <a href="https://developer.mozilla.org" target="_blank" rel="noopener noreferrer">
+      Open MDN in new tab
+    </a>
+
+    <!-- Internal link — goes to another page in your project -->
+    <a href="02-elements-forms.html">Go to next page (elements)</a>
+
+    <!-- Link to a specific section on the SAME page (using id) -->
+    <a href="#images-section">Jump to Images section below</a>
+
+    <!-- Email link — opens email app -->
+    <a href="mailto:rohit@example.com">Send email</a>
+
+    <!-- Phone link — useful on mobile -->
+    <a href="tel:+911234567890">Call us</a>
+
+    <!-- Download link — downloads file instead of opening -->
+    <a href="./notes.pdf" download>Download Notes</a>
+
+    <!-- ─────────────────────────────────────────────────────
+      IMAGES
+      src = source (path to the image)
+      alt = alternative text (shown if image fails to load,
+            and used by screen readers — REQUIRED for accessibility)
+      width & height = control size (or use CSS)
+    ───────────────────────────────────────────────────── -->
+
+    <!-- id="images-section" — the anchor link above jumps here! -->
+    <h2 id="images-section">Images</h2>
+
+    <!-- Local image (file on your computer) -->
+    <!-- <img src="./images/photo.jpg" alt="My photo" width="300" /> -->
+
+    <!-- Image from internet (URL) -->
+    <img
+      src="https://via.placeholder.com/300x150"
+      alt="A placeholder image showing 300x150 pixels"
+      width="300"
+      height="150"
+    />
+
+    <!-- Image with link — clicking image goes somewhere -->
+    <a href="https://www.google.com">
+      <img src="https://via.placeholder.com/100" alt="Click me to go to Google" />
+    </a>
+
+    <!-- ─────────────────────────────────────────────────────
+      COMMENTS IN HTML
+      Anything between these is a COMMENT — not shown to users.
+      Used to explain code to other developers (or yourself!)
+      <!-- This is a comment -->
+      <!-- You cannot nest comments in HTML! -->
+    ───────────────────────────────────────────────────── -->
+
+    <!-- ─────────────────────────────────────────────────────
+      SPECIAL CHARACTERS (HTML Entities)
+      Some characters have special meaning in HTML.
+      Use these codes to display them as text.
+    ───────────────────────────────────────────────────── -->
+    <p>
+      &lt; is the less-than sign &lt; (&amp;lt;)<br />
+      &gt; is the greater-than sign &gt; (&amp;gt;)<br />
+      &amp; is the ampersand &amp; (&amp;amp;)<br />
+      &copy; is copyright symbol<br />
+      &nbsp; is a non-breaking space (forces space)<br />
+      &trade; is trademark symbol™<br />
+      &reg; is registered trademark®<br />
+      &euro; is euro sign€<br />
+    </p>
+
+    <!-- ─────────────────────────────────────────────────────
+      SPAN vs DIV
+      div  = block element — takes full width, starts new line
+      span = inline element — stays in the flow of text
+      Both are "generic containers" with no default styling.
+      Add class/id to style them with CSS.
+    ───────────────────────────────────────────────────── -->
+    <div>
+      <!-- div wraps block content -->
+      <p>
+        My name is
+        <span style="color: blue; font-weight: bold;">Rohit</span>
+        and I am learning
+        <span style="color: green;">web development</span>.
+      </p>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────
+      CLASS vs ID
+      id    → UNIQUE — only ONE element per page can have it
+              Used for: specific targeting, URL anchors (#section)
+      class → REUSABLE — many elements can share same class
+              Used for: styling groups of elements with CSS
+    ───────────────────────────────────────────────────── -->
+    <div id="unique-header">This div has a unique id</div>
+
+    <div class="card">Card 1 — uses class "card"</div>
+    <div class="card">Card 2 — same class, can be styled together</div>
+    <div class="card highlight">Card 3 — multiple classes!</div>
+    <!-- Elements can have multiple classes separated by spaces -->
+
+    <!-- ─────────────────────────────────────────────────────
+      INLINE STYLES (not recommended — use CSS files instead)
+      style attribute — directly on element
+      format: "property: value; property: value;"
+    ───────────────────────────────────────────────────── -->
+    <p style="color: red; font-size: 20px; text-align: center;">
+      This text is styled inline — red, 20px, centered.
+    </p>
+
+    <!-- ─────────────────────────────────────────────────────
+      SCRIPT TAG — Where JavaScript goes
+      Best practice: put at BOTTOM of body (or use defer)
+      Reason: HTML loads first, then JS runs (page appears faster)
+    ───────────────────────────────────────────────────── -->
+    <script>
+      // Inline JavaScript — talks to the HTML above
+      // document.getElementById("unique-header") → finds element by id
+      const header = document.getElementById("unique-header");
+      // .textContent → gets/sets the text inside an element
+      console.log("Header text:", header.textContent);
+    </script>
+
+    <!--
+    INTERVIEW QUESTIONS FOR THIS FILE:
+    ===================================
+    Q: What is the difference between <b> and <strong>?
+    A: <b> is just visual (bold). <strong> is semantic — it means
+       "this content is important." Screen readers may emphasize <strong>.
+
+    Q: What is the difference between id and class?
+    A: id is unique (one per page). class is reusable (many elements).
+       id is used with # in CSS/JS, class is used with . in CSS.
+
+    Q: Why do we put <script> at the bottom of <body>?
+    A: So HTML loads and displays before JS runs.
+       Without this, JS might try to access elements that don't exist yet.
+       Alternative: use defer attribute: <script defer src="app.js">
+
+    Q: What does DOCTYPE do?
+    A: Tells browser which version of HTML to use.
+       <!DOCTYPE html> = HTML5 (current standard).
+
+    Q: What is semantic HTML?
+    A: Using tags that describe their meaning.
+       <strong> = "important" not just "bold"
+       <em> = "emphasis" not just "italic"
+       Helps accessibility and SEO.
+
+    Q: What is the purpose of alt in <img>?
+    A: 1. Shown when image fails to load
+       2. Read by screen readers for blind users
+       3. Indexed by search engines
+       Always required for accessibility!
+    -->
+
+  </body>
+</html>

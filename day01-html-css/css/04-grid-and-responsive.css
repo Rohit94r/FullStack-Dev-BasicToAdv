@@ -1,0 +1,411 @@
+/*
+  ============================================================
+  CSS — File 4: CSS Grid + Responsive Design
+  Level: Intermediate → Advanced → Interview Level
+
+  WHAT IS CSS GRID?
+  Grid = TWO-DIMENSIONAL layout system (rows AND columns).
+  Think of it like an Excel spreadsheet — you define rows and columns,
+  then place content in any cell.
+
+  Flexbox = 1D (one direction at a time)
+  Grid    = 2D (rows AND columns simultaneously)
+  ============================================================
+*/
+
+/* ==========================================================
+   SECTION 1: GRID BASICS — CONTAINER PROPERTIES
+   ========================================================== */
+
+/* Creating a grid */
+.grid-container {
+  display: grid;
+
+  /* ── grid-template-columns ────────────────────────────────
+     Define columns: how many and how wide each column is.
+  */
+  grid-template-columns: 200px 200px 200px;   /* 3 columns, each 200px */
+  grid-template-columns: 1fr 1fr 1fr;         /* 3 equal columns (fr = fraction) */
+  grid-template-columns: 200px 1fr 1fr;       /* fixed + 2 flexible */
+  grid-template-columns: repeat(3, 1fr);      /* 3 equal columns — shorthand */
+  grid-template-columns: repeat(4, 1fr);      /* 4 equal columns */
+
+  /* ── grid-template-rows ──────────────────────────────────
+     Define rows: how many and how tall.
+  */
+  grid-template-rows: 100px 200px 100px;      /* 3 rows with specific heights */
+  grid-template-rows: auto;                    /* rows fit their content */
+  grid-template-rows: repeat(3, auto);
+
+  /* ── gap — space between cells ───────────────────────────
+  */
+  gap: 24px;                    /* same gap rows and columns */
+  gap: 16px 24px;               /* row-gap: 16px, column-gap: 24px */
+  row-gap: 16px;
+  column-gap: 24px;
+}
+
+/* ── The fr unit ──────────────────────────────────────────
+   fr = fraction of remaining space after fixed sizes are applied.
+   Unique to Grid (and now Flexbox via flex: 1)
+
+   Example: grid-template-columns: 200px 1fr 2fr;
+   - Column 1: 200px fixed
+   - Column 2: 1/3 of remaining space
+   - Column 3: 2/3 of remaining space
+*/
+
+/* ── repeat() ─────────────────────────────────────────────
+   repeat(count, size) → avoid repeating the same value
+*/
+.six-columns  { grid-template-columns: repeat(6, 1fr); }
+.three-rows   { grid-template-rows: repeat(3, 100px); }
+
+/* ── minmax() — minimum and maximum size ─────────────────
+   minmax(min, max) → column is at least min, at most max
+*/
+.responsive-grid {
+  display: grid;
+  /* Columns: at least 200px, grow to fill available space */
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+}
+
+/* ── auto-fill vs auto-fit ───────────────────────────────
+   auto-fill → create as many columns as fit (even if empty)
+   auto-fit  → collapse empty columns → items grow to fill space
+
+   MAGIC RESPONSIVE GRID — no media queries needed!
+*/
+.auto-responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  /* Creates as many 250px+ columns as fit. Wraps automatically! */
+  gap: 24px;
+}
+
+/* ==========================================================
+   SECTION 2: GRID TEMPLATE AREAS — Visual Layout
+   The most readable way to define complex layouts!
+   ========================================================== */
+
+.page-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr 200px;   /* sidebar | main | aside */
+  grid-template-rows: 60px 1fr 60px;        /* header | content | footer */
+  min-height: 100vh;
+  gap: 0;
+
+  /*
+    Define named areas — like drawing the layout!
+    Each string = a row
+    Each word   = a cell (must match the named area)
+    Use "." for empty cells
+  */
+  grid-template-areas:
+    "header  header  header"   /* row 1: header spans all 3 columns */
+    "sidebar main    aside"    /* row 2: three separate columns */
+    "footer  footer  footer";  /* row 3: footer spans all 3 columns */
+}
+
+/* Assign children to named areas */
+.page-header  { grid-area: header;  background: #2c3e50; color: white; }
+.page-sidebar { grid-area: sidebar; background: #34495e; color: white; }
+.page-main    { grid-area: main;    padding: 24px; }
+.page-aside   { grid-area: aside;   background: #f5f5f5; }
+.page-footer  { grid-area: footer;  background: #2c3e50; color: white; }
+
+/* ==========================================================
+   SECTION 3: ITEM PLACEMENT (span multiple cells)
+   ========================================================== */
+
+.item-placement {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* ── grid-column / grid-row — where items start and end ─
+   grid-column: start / end   (line numbers, 1-based)
+   grid-row:    start / end
+*/
+.item-wide {
+  grid-column: 1 / 3;   /* starts at line 1, ends at line 3 → spans 2 columns */
+}
+
+.item-full-width {
+  grid-column: 1 / -1;  /* -1 means "last line" → spans ALL columns */
+}
+
+.item-tall {
+  grid-row: 1 / 3;      /* spans 2 rows */
+}
+
+/* ── span keyword ────────────────────────────────────────
+   span X → span X number of tracks (instead of specifying end line)
+*/
+.item-span-2 {
+  grid-column: span 2;   /* span 2 columns from wherever it starts */
+}
+
+.item-span-3 {
+  grid-column: span 3;
+  grid-row: span 2;      /* span 2 rows AND 3 columns */
+}
+
+/* ── Named grid lines ─────────────────────────────────────
+   Name lines with [name] in template for readability
+*/
+.named-grid {
+  grid-template-columns: [sidebar-start] 250px [sidebar-end content-start] 1fr [content-end];
+}
+.named-content {
+  grid-column: content-start / content-end;  /* clear intent! */
+}
+
+/* ==========================================================
+   SECTION 4: ALIGNMENT IN GRID
+   ========================================================== */
+
+/* Container-level alignment */
+.align-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+
+  /* Align items in their cells */
+  justify-items: stretch;    /* horizontal within cell: start|end|center|stretch */
+  align-items: stretch;      /* vertical within cell:   start|end|center|stretch */
+
+  /* Align the whole grid in the container */
+  justify-content: start;    /* horizontal grid position: start|end|center|space-between|... */
+  align-content: start;      /* vertical grid position */
+}
+
+/* Per-item alignment override */
+.item-centered {
+  justify-self: center;     /* center this item horizontally in its cell */
+  align-self: center;       /* center this item vertically in its cell */
+}
+
+/* ==========================================================
+   SECTION 5: RESPONSIVE DESIGN — MEDIA QUERIES
+   ========================================================== */
+
+/*
+  RESPONSIVE DESIGN = making your website look good on all screen sizes.
+  Approach: MOBILE FIRST (start with mobile styles, add complexity for larger screens)
+
+  Common breakpoints:
+  320px  → small phones (old iPhones)
+  375px  → modern phones (iPhone 14)
+  480px  → large phones
+  768px  → tablets (iPad)
+  1024px → laptops
+  1280px → desktops
+  1440px → large monitors
+  1920px → full HD monitors
+*/
+
+/* ── BASE STYLES (mobile first) ──────────────────────────
+   Write styles for MOBILE first.
+   Then add media queries for LARGER screens.
+*/
+
+/* Mobile: single column layout */
+.responsive-layout {
+  display: grid;
+  grid-template-columns: 1fr;    /* single column on mobile */
+  gap: 16px;
+  padding: 16px;
+}
+
+/* ── min-width: tablet and above ────────────────────────
+   @media (min-width: X) → apply styles when screen is X or wider
+*/
+@media (min-width: 768px) {
+  /* Tablet: 2 columns */
+  .responsive-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop: 3 columns */
+  .responsive-layout {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    padding: 32px;
+  }
+}
+
+@media (min-width: 1280px) {
+  /* Large desktop: 4 columns */
+  .responsive-layout {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1280px;     /* limit max width */
+    margin: 0 auto;        /* center the layout */
+  }
+}
+
+/* ── max-width: target ONLY smaller screens ─────────────
+   @media (max-width: X) → apply styles when screen is X or narrower
+   Used in desktop-first approach
+*/
+@media (max-width: 767px) {
+  .sidebar-layout {
+    flex-direction: column;   /* stack sidebar on top of content on mobile */
+  }
+  .sidebar {
+    width: 100%;             /* full width sidebar on mobile */
+  }
+}
+
+/* ── Other media features ────────────────────────────────
+*/
+/* Portrait vs Landscape */
+@media (orientation: landscape) {
+  .hero { height: 60vh; }
+}
+
+/* High DPI / Retina displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .logo {
+    background-image: url("logo@2x.png"); /* use higher resolution image */
+    background-size: 100px 50px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print { display: none; }    /* hide nav, footer etc when printing */
+  body { font-size: 12pt; }
+  a::after { content: " (" attr(href) ")"; }  /* show link URLs in print */
+}
+
+/* Dark mode preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a2e;
+    --text: #eee;
+  }
+}
+
+/* Reduced motion preference (accessibility!) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================
+   SECTION 6: CSS TRANSITIONS & ANIMATIONS
+   ========================================================== */
+
+/* ── Transitions — smooth change between states ───────────
+   property duration timing-function delay
+*/
+.transition-demo {
+  background-color: #3498db;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;               /* single property */
+  transition: all 0.3s ease;                            /* all properties */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* multiple */
+}
+
+.transition-demo:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);    /* moves up 2px on hover */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Timing functions: ease, linear, ease-in, ease-out, ease-in-out, cubic-bezier() */
+.ease-demo        { transition: all 0.3s ease; }         /* slow → fast → slow */
+.linear-demo      { transition: all 0.3s linear; }       /* constant speed */
+.ease-in-demo     { transition: all 0.3s ease-in; }      /* slow start */
+.ease-out-demo    { transition: all 0.3s ease-out; }     /* slow end */
+.bounce-demo      { transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+
+/* ── Keyframe Animations ──────────────────────────────────
+   Define animation steps with @keyframes
+*/
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  100% { transform: translateX(0);     opacity: 1; }
+}
+
+/* Apply animations */
+.fade-in-element {
+  animation: fadeIn 0.5s ease forwards;
+  /*         name   duration timing  fill-mode */
+}
+
+.pulsing-button {
+  animation: pulse 2s ease-in-out infinite;
+  /*                             count */
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+  border: 4px solid #f3f3f3;
+  border-top-color: #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+/* Animation with delay */
+.staggered-item:nth-child(1) { animation: fadeIn 0.5s ease 0.1s both; }
+.staggered-item:nth-child(2) { animation: fadeIn 0.5s ease 0.2s both; }
+.staggered-item:nth-child(3) { animation: fadeIn 0.5s ease 0.3s both; }
+/* fill-mode: both → use 'from' styles before animation and 'to' styles after */
+
+/*
+  INTERVIEW Q&A:
+  ==============
+  Q: What is the difference between Flexbox and Grid?
+  A: Flexbox → 1D: one direction at a time (row OR column)
+     Grid    → 2D: rows AND columns simultaneously
+     Use Flex for component-level layout, Grid for page-level layout.
+     They complement each other.
+
+  Q: What is the fr unit in Grid?
+  A: fr = fraction unit. Represents a fraction of available space.
+     repeat(3, 1fr) → three equal columns sharing all space.
+     200px 1fr 2fr → fixed column, then remaining split 1:2.
+
+  Q: What is mobile-first design?
+  A: Write base CSS for mobile screens, then use min-width media queries
+     to add styles for larger screens. Better than desktop-first because
+     it forces prioritization and results in lighter mobile CSS.
+
+  Q: What is the magic responsive grid trick?
+  A: grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+     Creates as many columns as fit at minimum 250px, wraps automatically.
+     No media queries needed!
+
+  Q: What is the difference between transition and animation?
+  A: Transition → smooth change between TWO states (hover, focus, etc.)
+                  Triggered by state change. One start, one end.
+     Animation  → multi-step sequences defined with @keyframes.
+                  Can loop, delay, reverse, play independently.
+*/

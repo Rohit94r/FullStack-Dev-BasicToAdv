@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  HTML BASICS — File 2: Lists, Tables & Forms
+  Level: Beginner → Intermedimhate
+  ============================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Elements & Forms</title>
+</head>
+<body>
+
+  <!-- ========================================================
+    LISTS
+    3 types of lists in HTML:
+    1. Unordered list (bullets) → <ul>
+    2. Ordered list (numbers)   → <ol>
+    3. Description list         → <dl>
+    Items go inside: <li> (list item)
+  ======================================================== -->
+
+  <h1>Lists</h1>
+
+  <!-- Unordered list — bullet points by default -->
+  <h2>Unordered List (ul)</h2>
+  <ul>
+    <li>JavaScript</li>
+    <li>TypeScript</li>
+    <li>React</li>
+    <!-- Nested list inside a list item -->
+    <li>CSS
+      <ul>
+        <li>Flexbox</li>
+        <li>Grid</li>
+        <li>Animations</li>
+      </ul>
+    </li>
+  </ul>
+
+  <!-- Ordered list — numbered automatically -->
+  <h2>Ordered List (ol)</h2>
+  <ol>
+    <li>Learn HTML basics</li>
+    <li>Learn CSS styling</li>
+    <li>Learn JavaScript</li>
+    <li>Build a project</li>
+  </ol>
+
+  <!-- Ordered list — reversed, starting from 5 -->
+  <ol reversed start="5">
+    <li>Item 5</li>
+    <li>Item 4</li>
+    <li>Item 3</li>
+  </ol>
+
+  <!-- Description list — term + description pairs -->
+  <h2>Description List (dl)</h2>
+  <dl>
+    <dt>HTML</dt>
+    <dd>— Structure of webpages</dd>
+
+    <dt>CSS</dt>
+    <dd>— Styling and visual design</dd>
+
+    <dt>JavaScript</dt>
+    <dd>— Adds interactivity and behavior</dd>
+  </dl>
+
+  <!-- ========================================================
+    TABLES
+    Used for: tabular data (like a spreadsheet)
+    NOT used for: page layout (use CSS Grid/Flexbox instead)
+
+    table → the whole table
+    thead → header section (top row, usually bold)
+    tbody → body section (data rows)
+    tfoot → footer section (totals, summaries)
+    tr    → table row
+    th    → table header cell (bold by default)
+    td    → table data cell
+  ======================================================== -->
+
+  <h1>Tables</h1>
+
+  <table border="1" style="border-collapse: collapse; width: 100%;">
+
+    <!-- caption: a title above the table -->
+    <caption>Student Grades</caption>
+
+    <!-- thead: column headers -->
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Subject</th>
+        <th>Score</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+
+    <!-- tbody: actual data -->
+    <tbody>
+      <tr>
+        <td>Rohit</td>
+        <td>JavaScript</td>
+        <td>95</td>
+        <td>A</td>
+      </tr>
+      <tr>
+        <td>Anna</td>
+        <td>TypeScript</td>
+        <td>88</td>
+        <td>B+</td>
+      </tr>
+      <!-- colspan: cell spans multiple COLUMNS -->
+      <tr>
+        <td colspan="2">Average Score</td>
+        <td>91.5</td>
+        <td>A-</td>
+      </tr>
+    </tbody>
+
+    <!-- tfoot: totals or summary -->
+    <tfoot>
+      <tr>
+        <!-- rowspan: cell spans multiple ROWS -->
+        <td rowspan="2">Footer</td>
+        <td colspan="3">End of grades table</td>
+      </tr>
+    </tfoot>
+
+  </table>
+
+  <!-- ========================================================
+    FORMS
+    Forms are how users SEND DATA to a server.
+    Think: login page, signup page, search bar, contact form.
+
+    action = where to send the data (server URL)
+    method = HOW to send:
+             GET  → data in URL (visible) — for search, filters
+             POST → data in body (hidden) — for login, signup, sensitive data
+  ======================================================== -->
+
+  <h1>Forms</h1>
+
+  <form action="/submit" method="POST">
+
+    <!-- ──────────────────────────────────────────────────
+      TEXT INPUT
+      <label> connects to input via 'for' and 'id'
+      Clicking the label focuses the input → better UX!
+    ────────────────────────────────────────────────── -->
+    <label for="fullname">Full Name:</label>
+    <input
+      type="text"
+      id="fullname"
+      name="fullname"
+      placeholder="Enter your full name"
+      required
+      minlength="2"
+      maxlength="50"
+    />
+    <br /><br />
+
+    <!-- ──────────────────────────────────────────────────
+      INPUT TYPES — the type attribute changes behavior!
+    ────────────────────────────────────────────────── -->
+
+    <!-- Email: validates email format automatically -->
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="you@example.com" required />
+    <br /><br />
+
+    <!-- Password: hides characters -->
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" minlength="8" required />
+    <br /><br />
+
+    <!-- Number: only accepts numbers, has up/down arrows -->
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" min="1" max="120" step="1" value="25" />
+    <br /><br />
+
+    <!-- Range: a slider -->
+    <label for="volume">Volume: <span id="volume-display">50</span></label>
+    <input
+      type="range"
+      id="volume"
+      name="volume"
+      min="0"
+      max="100"
+      value="50"
+      oninput="document.getElementById('volume-display').textContent = this.value"
+    />
+    <br /><br />
+
+    <!-- Date picker -->
+    <label for="birthday">Birthday:</label>
+    <input type="date" id="birthday" name="birthday" />
+    <br /><br />
+
+    <!-- Time picker -->
+    <label for="meeting-time">Meeting Time:</label>
+    <input type="time" id="meeting-time" name="meeting-time" />
+    <br /><br />
+
+    <!-- Color picker -->
+    <label for="fav-color">Favorite Color:</label>
+    <input type="color" id="fav-color" name="fav-color" value="#0066ff" />
+    <br /><br />
+
+    <!-- URL input: validates URL format -->
+    <label for="website">Website:</label>
+    <input type="url" id="website" name="website" placeholder="https://example.com" />
+    <br /><br />
+
+    <!-- Search: similar to text but with clear button -->
+    <label for="search">Search:</label>
+    <input type="search" id="search" name="search" placeholder="Search..." />
+    <br /><br />
+
+    <!-- Phone number -->
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="10-digit number" />
+    <br /><br />
+
+    <!-- File upload -->
+    <label for="resume">Upload Resume:</label>
+    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" />
+    <br /><br />
+
+    <!-- Hidden input: sent with form but not shown to user -->
+    <!-- Useful for: user ID, CSRF tokens, session data -->
+    <input type="hidden" name="source" value="website" />
+
+    <!-- ──────────────────────────────────────────────────
+      TEXTAREA — multi-line text input
+      rows/cols control the visible size
+    ────────────────────────────────────────────────── -->
+    <label for="message">Message:</label><br />
+    <textarea id="message" name="message" rows="4" cols="50" placeholder="Write your message here..."></textarea>
+    <br /><br />
+
+    <!-- ──────────────────────────────────────────────────
+      SELECT — dropdown menu
+      option selected → default choice
+      optgroup → group options
+    ────────────────────────────────────────────────── -->
+    <label for="country">Country:</label>
+    <select id="country" name="country">
+      <option value="">-- Select a country --</option>
+      <optgroup label="Asia">
+        <option value="in" selected>India</option>
+        <option value="jp">Japan</option>
+        <option value="cn">China</option>
+      </optgroup>
+      <optgroup label="Europe">
+        <option value="de">Germany</option>
+        <option value="fr">France</option>
+      </optgroup>
+    </select>
+    <br /><br />
+
+    <!-- Multiple select: hold Ctrl/Cmd to select multiple -->
+    <label for="skills">Skills (select multiple):</label>
+    <select id="skills" name="skills" multiple size="4">
+      <option value="html">HTML</option>
+      <option value="css">CSS</option>
+      <option value="js" selected>JavaScript</option>
+      <option value="ts" selected>TypeScript</option>
+    </select>
+    <br /><br />
+
+    <!-- ──────────────────────────────────────────────────
+      RADIO BUTTONS — select ONE from a group
+      Same 'name' groups them together
+    ────────────────────────────────────────────────── -->
+    <fieldset>
+      <legend>Experience Level:</legend>
+
+      <input type="radio" id="beginner" name="level" value="beginner" />
+      <label for="beginner">Beginner</label>
+
+      <input type="radio" id="intermediate" name="level" value="intermediate" checked />
+      <label for="intermediate">Intermediate</label>
+
+      <input type="radio" id="advanced" name="level" value="advanced" />
+      <label for="advanced">Advanced</label>
+    </fieldset>
+    <br />
+
+    <!-- ──────────────────────────────────────────────────
+      CHECKBOXES — select MULTIPLE options
+      Each has its own name (or same name for array)
+    ────────────────────────────────────────────────── -->
+    <fieldset>
+      <legend>Topics you want to learn:</legend>
+
+      <input type="checkbox" id="topic-html" name="topics" value="html" checked />
+      <label for="topic-html">HTML</label>
+
+      <input type="checkbox" id="topic-css" name="topics" value="css" checked />
+      <label for="topic-css">CSS</label>
+
+      <input type="checkbox" id="topic-js" name="topics" value="js" />
+      <label for="topic-js">JavaScript</label>
+
+      <input type="checkbox" id="topic-ts" name="topics" value="ts" />
+      <label for="topic-ts">TypeScript</label>
+    </fieldset>
+    <br />
+
+    <!-- ──────────────────────────────────────────────────
+      DATALIST — text input with suggestions
+      Like autocomplete — user can type anything OR pick from list
+    ────────────────────────────────────────────────── -->
+    <label for="framework">Favorite Framework:</label>
+    <input type="text" id="framework" name="framework" list="frameworks" />
+    <datalist id="frameworks">
+      <option value="React" />
+      <option value="Vue" />
+      <option value="Angular" />
+      <option value="Svelte" />
+      <option value="Next.js" />
+    </datalist>
+    <br /><br />
+
+    <!-- ──────────────────────────────────────────────────
+      BUTTONS
+    ────────────────────────────────────────────────── -->
+
+    <!-- submit: submits the form (default button type in a form) -->
+    <button type="submit">Submit Form</button>
+
+    <!-- reset: clears all form fields back to default values -->
+    <button type="reset">Reset Form</button>
+
+    <!-- button: does nothing by default (add JS to make it work) -->
+    <button type="button" onclick="alert('Button clicked!')">Click Me</button>
+
+    <!-- input as submit button (older way) -->
+    <input type="submit" value="Alternative Submit" />
+
+  </form>
+
+  <!--
+  INTERVIEW QUESTIONS FOR FORMS:
+  ================================
+  Q: What is the difference between GET and POST in forms?
+  A: GET  → data in URL (?name=Rohit&age=25) — visible, bookmarkable, cached
+             Use for: search, filter, pagination — NOT for sensitive data!
+     POST → data in request body — not in URL, more secure
+             Use for: login, signup, payments, any sensitive data
+
+  Q: What is the purpose of the 'name' attribute in form inputs?
+  A: 'name' is the KEY sent to the server.
+     <input name="email" value="r@r.com"> sends: email=r@r.com
+     Without 'name', the input data is NOT sent!
+
+  Q: What is the difference between id and name?
+  A: id   → used by CSS and JS to target the element
+     name → used by the form to identify data when submitting
+     They can be different values, but often kept the same.
+
+  Q: What does 'required' do?
+  A: Browser validation — won't submit form if field is empty.
+     But NEVER trust only client-side validation!
+     Always validate on the server too.
+
+  Q: What is a fieldset and legend?
+  A: fieldset groups related inputs with a border box.
+     legend is the title/label for that group.
+     Improves accessibility for screen readers.
+
+  Q: When to use radio vs checkbox?
+  A: Radio    → choose EXACTLY ONE option from a group
+     Checkbox → choose ZERO, ONE, OR MULTIPLE options
+  -->
+
+</body>
+</html>

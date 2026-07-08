@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Personal portfolio — built with semantic HTML and CSS" />
+
+    <!-- TODO: Write a descriptive <title> for your portfolio -->
+    <!-- YOUR IDEA: _________________________________________________ -->
+     <title>Rohit Jadhav — Full Stack Developer</title>
+    <!-- ANSWER: <title>Your Name — Full Stack Developer</title> -->
+
+    <title>Portfolio — Rohit Jadhav</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+
+  <body>
+    <!-- ===================================================================
+         DAY 1 PROJECT: Personal Portfolio (fill-in-the-blank)
+         Fill every TODO. Open in browser + DevTools. No frameworks.
+         =================================================================== -->
+
+    <!-- TODO: Add a skip link for accessibility (href="#main-content") -->
+     <a class="skip-link href="#main-content"> Skip To Content </a>
+    <!-- YOUR IDEA: _________________________________________________ -->
+    <!-- ANSWER: <a class="skip-link" href="#main-content">Skip to content</a> -->
+
+    <!-- ── NAV ─────────────────────────────────────────────────────── -->
+    <header>
+      <!-- TODO: Use <nav> with aria-label="Primary navigation" -->
+      <!-- TODO: Logo/brand on the left, link list on the right (flexbox in CSS) -->
+      <!-- TODO: Links: About, Skills, Projects, Contact (use #anchors) -->
+      <!-- YOUR IDEA: _________________________________________________ -->
+      <nav aria-label="Primary navigation">
+        <a class="logo" href="#">Rohit Jadhav</a>
+        <ul class="nav-links">
+          <!-- TODO: Add <li><a href="#about">About</a></li> etc. -->
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <!-- ── HERO ──────────────────────────────────────────────────── -->
+      <!-- TODO: Semantic <section> with id="hero" -->
+      <!-- TODO: Your name in <h1>, job title in <p>, CTA <a> or <button> -->
+      <!-- YOUR IDEA: _________________________________________________ -->
+      <section id="hero" class="hero">
+        <h1>Rohit Jadhav</h1>
+        <p class="hero__subtitle">Full Stack Developer</p>
+        <a class="btn btn--primary" href="#contact">Contact me</a>
+      </section>
+
+      <!-- ── ABOUT ─────────────────────────────────────────────────── -->
+      <!-- TODO: id="about", media-object layout (image + text side by side) -->
+      <!-- TODO: Use <figure> + <img> with meaningful alt text -->
+      <!-- YOUR IDEA: _________________________________________________ -->
+      <section id="about" class="about">
+        <h2>About Me</h2>
+        <div class="about__grid">
+          <figure class="about__photo">
+            <!-- TODO: Add <img src="..." alt="..."> (placeholder URL is fine) -->
+            <img src="images/rohit.jpg" alt="Rohit Jadhav">
+          </figure>
+          <div class="about__text">
+            <!-- TODO: 2–3 paragraphs about you -->
+             <p>I am a full stack developer with a passion for creating web applications. I am a quick learner and I am always looking to improve my skills.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SKILLS ────────────────────────────────────────────────── -->
+      <!-- TODO: id="skills", grid of skill cards (CSS Grid auto-fill) -->
+      <!-- TODO: At least 6 skills — each in an article or div with h3 + p -->
+      <!-- YOUR IDEA: _________________________________________________ -->
+      <section id="skills" class="skills">
+        <h2>Skills</h2>
+        <div class="skills__grid">
+          <!-- TODO: Repeat skill card pattern 6+ times -->
+          <!-- Example structure (fill in content):
+          
+          -->
+          <article class="skill-card">
+            <h3>HTML</h3>
+            <p>Semantic markup, accessibility basics</p>
+          </article>
+          <article class="skill-card">
+            <h3>CSS</h3>
+            <p>Responsive design, layout techniques</p>
+          </article>
+          <article class="skill-card">
+            <h3>JavaScript</h3>
+            <p>DOM manipulation, event handling</p>
+          </article>
+          <article class="skill-card">
+            <h3>React</h3>
+            <p>Component-based architecture, state management</p>
+          </article>
+          <article class="skill-card">
+            <h3>Node.js</h3>
+            <p>Server-side JavaScript, asynchronous programming</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Express</h3>
+            <p>Web application framework, API development</p>
+          </article>
+          
+        </div>
+      </section>
+
+      <!-- ── PROJECTS ──────────────────────────────────────────────── -->
+      <!-- TODO: id="projects", at least 3 project cards -->
+      <!-- TODO: Each card: image/thumbnail, title, description, link -->
+      <!-- YOUR IDEA: _________________________________________________ -->
+      <section id="projects" class="projects">
+        <h2>Projects</h2>
+        <div class="projects__grid">
+          <!-- TODO: 3+ <article class="project-card"> elements -->
+            <article class="project-card">
+              <img src="images/project1.jpg" alt="Project 1">
+              <h3>Apply project</h3>
+              <p>Apply project is a web application that allows users to apply for jobs and manage their applications.</p>
+              <a href="https://applyproject.com">View Project</a>
+            </article>
+            <article class="project-card">
+              <img src="images/project2.jpg" alt="Apply project">
+              <h3>Job portal</h3>
+              <p>Apply project is a web application that allows users to apply for jobs and manage their applications.</p>
+              <a href="https://applyproject.com">View Project</a>
+            </article>
+        </div>
+      </section>
+
+      <!-- ── CONTACT ───────────────────────────────────────────────── -->
+      <!-- TODO: id="contact", form with labels (not just placeholders) -->
+      <!-- TODO: Fields: name, email, subject, message -->
+      <!-- TODO: Add required, type="email", minlength where appropriate -->
+      <!-- TODO: method="post" action="#" (static demo — no backend yet) -->
+      <!-- YOUR IDEA: _________________________________________________ -->
+      <section id="contact" class="contact">
+        <h2>Contact</h2>
+        <form class="contact__form" action="#" method="post">
+          <!-- TODO: Build the full form with <label for=""> + inputs -->
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter Your Nmme" >
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter Your Email">
+            <label type="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="Enter Your Subject">
+            <label type="message">Message</label>
+            <textarea name="message" id="message" placeholder="Enter Your Message"></textarea>
+            <button type="submit">Submit</button>
+            
+        </form>
+      </section>
+    </main>
+
+    <!-- ── FOOTER ──────────────────────────────────────────────────── -->
+    <footer class="site-footer">
+      <!-- TODO: Copyright with <time datetime="YYYY"> for the year -->
+      <!-- TODO: Optional social links -->
+      <!-- YOUR IDEA: _________________________________________________ -->
+      <p>
+        &copy;
+        <time datetime="2026">2026</time>
+        Rohit Jadhav
+      </p>
+    </footer>
+  </body>
+</html>

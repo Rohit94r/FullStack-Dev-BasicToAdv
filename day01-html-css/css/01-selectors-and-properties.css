@@ -1,0 +1,502 @@
+/*
+  ============================================================
+  CSS BASICS — File 1: Selectors & Properties
+  Level: Absolute Beginner → Intermediate
+
+  WHAT IS CSS?
+  CSS = Cascading Style Sheets
+  It STYLES your HTML — controls how things LOOK.
+  If HTML is the skeleton, CSS is the skin and clothes.
+
+  HOW CSS WORKS:
+  selector {
+    property: value;    ← one rule
+    property: value;    ← another rule
+  }
+
+  WHERE TO PUT CSS:
+  1. External file (BEST): <link rel="stylesheet" href="style.css">
+  2. Internal (in <head>): <style> ... </style>
+  3. Inline (WORST):       <p style="color:red">
+  ============================================================
+*/
+
+/* ==========================================================
+   SECTION 1: HOW TO LINK THIS FILE
+   ==========================================================
+   In your HTML <head>:
+   <link rel="stylesheet" href="../css/01-selectors-and-properties.css" />
+*/
+
+/* ==========================================================
+   SECTION 2: SELECTORS
+   A selector tells CSS WHICH element to style.
+   ========================================================== */
+
+/* ── 2A. Element Selector ─────────────────────────────────
+   Targets ALL elements of that type.
+   Be careful — too broad, styles ALL h1, ALL p etc.
+*/
+h1 {
+  color: navy;
+  font-size: 32px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;     /* 1.6 = 1.6x the font size → good for readability */
+  color: #333333;       /* dark gray — easier on eyes than pure black */
+}
+
+/* ── 2B. Class Selector (.) ───────────────────────────────
+   Targets elements WITH that class attribute.
+   class="card"  → targeted by  .card
+   Most used selector — reusable across many elements.
+*/
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+}
+
+.highlight {
+  background-color: #fff3cd;  /* light yellow */
+  border-left: 4px solid #ffc107;
+  padding: 12px;
+}
+
+.text-red    { color: #e74c3c; }
+.text-green  { color: #27ae60; }
+.text-blue   { color: #2980b9; }
+
+/* ── 2C. ID Selector (#) ─────────────────────────────────
+   Targets element with THAT id (only ONE per page).
+   id="header"  → targeted by  #header
+   More specific than class — use sparingly.
+*/
+#main-header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+/* ── 2D. Universal Selector (*) ──────────────────────────
+   Targets EVERY element on the page.
+   Use for global resets only.
+*/
+* {
+  box-sizing: border-box;  /* padding/border included in width (very useful!) */
+  margin: 0;               /* remove default browser margins */
+  padding: 0;              /* remove default browser padding */
+}
+
+/* ── 2E. Attribute Selector ──────────────────────────────
+   Target elements based on their HTML attributes.
+*/
+/* All inputs with type="text" */
+input[type="text"] {
+  border: 2px solid #bdc3c7;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+/* All links that open in a new tab */
+a[target="_blank"] {
+  color: #8e44ad;
+}
+
+/* All links whose href STARTS with "https" */
+a[href^="https"] {
+  /* Prefix selector ^ */
+  font-weight: bold;
+}
+
+/* All links whose href ENDS with ".pdf" */
+a[href$=".pdf"]::after {
+  /* Suffix selector $ */
+  content: " (PDF)";
+  font-size: 12px;
+  color: gray;
+}
+
+/* All images with alt text that CONTAINS "diagram" */
+img[alt*="diagram"] {
+  /* Contains selector * */
+  border: 2px solid blue;
+}
+
+/* ── 2F. Pseudo-class Selectors (:) ──────────────────────
+   Style based on ELEMENT STATE (hover, focus, active...)
+*/
+
+/* When mouse hovers over a button */
+button:hover {
+  background-color: #2980b9;
+  cursor: pointer;     /* changes cursor to hand icon */
+  transform: scale(1.02);  /* slightly bigger on hover */
+}
+
+/* When an input is focused (clicked into) */
+input:focus {
+  outline: 2px solid #3498db;
+  border-color: #3498db;
+}
+
+/* Active state: while clicking */
+button:active {
+  transform: scale(0.98);  /* slightly smaller when clicking */
+}
+
+/* Already visited link */
+a:visited {
+  color: #8e44ad;
+}
+
+/* Link before visiting */
+a:link {
+  color: #2980b9;
+}
+
+/* First child — first element inside its parent */
+li:first-child {
+  font-weight: bold;
+}
+
+/* Last child */
+li:last-child {
+  border-bottom: none;
+}
+
+/* nth-child — powerful pattern selector */
+tr:nth-child(even) {
+  background-color: #f5f5f5;  /* zebra striping for tables */
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Every 3rd element */
+.card:nth-child(3n) {
+  border-color: blue;
+}
+
+/* Only child — element with no siblings */
+p:only-child {
+  font-style: italic;
+}
+
+/* Not selector — everything EXCEPT .disabled */
+button:not(.disabled) {
+  cursor: pointer;
+}
+
+/* When input is NOT valid (has required + empty) */
+input:invalid {
+  border-color: #e74c3c;
+}
+
+input:valid {
+  border-color: #27ae60;
+}
+
+/* ── 2G. Pseudo-element Selectors (::) ───────────────────
+   Style a PART of an element (not the whole element).
+*/
+
+/* Add content BEFORE the element (without adding HTML) */
+.pro-tip::before {
+  content: "💡 ";  /* added before text */
+}
+
+/* Add content AFTER the element */
+.required::after {
+  content: " *";       /* the asterisk after required labels */
+  color: red;
+}
+
+/* Style the FIRST line of a paragraph */
+p::first-line {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Style the FIRST letter of a paragraph */
+p::first-letter {
+  font-size: 48px;
+  float: left;
+  margin-right: 4px;
+  color: #2c3e50;
+}
+
+/* Style the browser's text selection highlight */
+::selection {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Placeholder text in inputs */
+input::placeholder {
+  color: #bdc3c7;
+  font-style: italic;
+}
+
+/* ── 2H. Combinator Selectors ────────────────────────────
+   Combine selectors to be more specific.
+*/
+
+/* Descendant: div p → ALL <p> anywhere inside a <div> */
+.article p {
+  margin-bottom: 12px;
+}
+
+/* Child (>): .nav > a → DIRECT children only */
+nav > a {
+  padding: 8px 16px;
+}
+
+/* Adjacent sibling (+): h2 + p → <p> immediately after <h2> */
+h2 + p {
+  font-size: 18px;  /* first paragraph after any h2 */
+  color: #555;
+}
+
+/* General sibling (~): h2 ~ p → ALL <p> that are siblings after <h2> */
+h2 ~ p {
+  margin-left: 16px;
+}
+
+/* ── 2I. Group Selectors (,) ─────────────────────────────
+   Apply same styles to MULTIPLE selectors.
+*/
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Georgia', serif;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+input, textarea, select {
+  font-family: inherit;  /* use parent's font */
+  font-size: 16px;
+}
+
+/* ==========================================================
+   SECTION 3: COLORS
+   ========================================================== */
+
+.color-examples {
+  /* Named colors */
+  color: red;
+  background-color: blue;
+
+  /* HEX — most common: #RRGGBB (RR=red, GG=green, BB=blue, 00-FF) */
+  color: #e74c3c;           /* red */
+  color: #27ae60;           /* green */
+  color: #3498db;           /* blue */
+  color: #ffffff;           /* white */
+  color: #000000;           /* black */
+  color: #2c3e50;           /* dark blue-gray */
+
+  /* HEX with alpha: #RRGGBBAA */
+  color: #3498db80;         /* blue at 50% opacity */
+
+  /* RGB — red, green, blue (0-255 each) */
+  color: rgb(231, 76, 60);
+
+  /* RGBA — with alpha/opacity (0=transparent, 1=opaque) */
+  color: rgba(231, 76, 60, 0.5);  /* 50% transparent */
+  background-color: rgba(0, 0, 0, 0.2);  /* dark overlay */
+
+  /* HSL — hue, saturation, lightness */
+  /* Hue: 0=red, 120=green, 240=blue (0-360 degrees on color wheel) */
+  /* Saturation: 0%=gray, 100%=full color */
+  /* Lightness: 0%=black, 50%=normal, 100%=white */
+  color: hsl(204, 70%, 53%);   /* blue */
+  color: hsl(120, 60%, 40%);   /* green */
+
+  /* HSLA — with alpha */
+  color: hsla(204, 70%, 53%, 0.7);
+
+  /* CSS Custom Properties (variables) for colors */
+  color: var(--primary-color);
+}
+
+/* ==========================================================
+   SECTION 4: CSS VARIABLES (Custom Properties)
+   Reuse values — change once, updates everywhere!
+   ========================================================== */
+
+/* Define variables in :root (global scope) */
+:root {
+  /* Colors */
+  --primary-color:    #3498db;
+  --secondary-color:  #2ecc71;
+  --danger-color:     #e74c3c;
+  --warning-color:    #f39c12;
+  --dark-color:       #2c3e50;
+  --light-color:      #ecf0f1;
+  --text-color:       #333333;
+  --bg-color:         #ffffff;
+
+  /* Spacing */
+  --spacing-xs:   4px;
+  --spacing-sm:   8px;
+  --spacing-md:   16px;
+  --spacing-lg:   24px;
+  --spacing-xl:   32px;
+
+  /* Typography */
+  --font-size-sm:   14px;
+  --font-size-md:   16px;
+  --font-size-lg:   20px;
+  --font-size-xl:   24px;
+
+  /* Border radius */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  16px;
+  --radius-full: 999px;  /* pill shape */
+}
+
+/* Using variables */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+}
+
+/* Dark mode using CSS variables! */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #ecf0f1;
+    --bg-color:   #1a1a2e;
+  }
+}
+
+/* ==========================================================
+   SECTION 5: TYPOGRAPHY
+   ========================================================== */
+
+body {
+  /* font-family: list fonts in order of preference */
+  /* browser uses first available font */
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;     /* base font size */
+  line-height: 1.6;    /* 1.5-1.7 is readable */
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+.typography-demo {
+  /* Font size: px (absolute), em (relative to parent), rem (relative to root) */
+  font-size: 16px;     /* pixels — exact */
+  font-size: 1em;      /* 1x parent font size */
+  font-size: 1rem;     /* 1x root font size — most predictable! */
+
+  /* Font weight: 100 (thin) to 900 (black) */
+  font-weight: 400;   /* normal */
+  font-weight: 700;   /* bold */
+  font-weight: bold;  /* same as 700 */
+
+  /* Font style */
+  font-style: italic;
+  font-style: normal;
+
+  /* Text alignment */
+  text-align: left;
+  text-align: center;
+  text-align: right;
+  text-align: justify;
+
+  /* Text decoration */
+  text-decoration: underline;
+  text-decoration: none;      /* remove underline from links */
+  text-decoration: line-through;
+
+  /* Text transform */
+  text-transform: uppercase;
+  text-transform: lowercase;
+  text-transform: capitalize;  /* First Letter Of Each Word */
+
+  /* Letter spacing */
+  letter-spacing: 2px;
+
+  /* Word spacing */
+  word-spacing: 4px;
+
+  /* Text indent (first line) */
+  text-indent: 32px;
+
+  /* Overflow with ellipsis (...) */
+  white-space: nowrap;     /* don't wrap to next line */
+  overflow: hidden;        /* hide what overflows */
+  text-overflow: ellipsis; /* add "..." when text overflows */
+}
+
+/* ==========================================================
+   SECTION 6: CSS SPECIFICITY — Which style WINS?
+   When multiple rules target same element, which one wins?
+   Rule: higher specificity = wins the conflict.
+
+   Specificity score (like version numbers):
+   !important > inline style > ID > class/attr/pseudo > element
+
+   Count like: (ID count, class count, element count)
+   p            → (0, 0, 1)  = specificity 0-0-1
+   .card        → (0, 1, 0)  = specificity 0-1-0
+   #header      → (1, 0, 0)  = specificity 1-0-0
+   .card p      → (0, 1, 1)  = specificity 0-1-1
+   #header .nav → (1, 1, 0)  = specificity 1-1-0
+   ========================================================== */
+
+/* specificity 0-0-1 */
+p { color: black; }
+
+/* specificity 0-1-0 — wins over p above */
+.intro { color: blue; }
+
+/* specificity 1-0-0 — wins over .intro above */
+#special { color: red; }
+
+/* !important — wins over EVERYTHING (use sparingly!) */
+.override { color: green !important; }
+
+/*
+  INTERVIEW Q&A:
+  ==============
+  Q: What is CSS specificity?
+  A: A scoring system that determines which CSS rule wins when multiple
+     rules target the same element. Score: ID > class > element.
+     !important overrides all. Same specificity → last rule wins (cascade).
+
+  Q: What does "cascading" mean in CSS?
+  A: Rules "cascade" down — later rules override earlier ones (if same
+     specificity). Rules from parent elements cascade to children.
+
+  Q: What is the difference between px, em, and rem?
+  A: px  → absolute pixels. Same size always.
+     em  → relative to PARENT font-size. Can compound (nested elements).
+     rem → relative to ROOT (<html>) font-size. Predictable! (preferred)
+
+  Q: What is the universal selector and when to use it?
+  A: * selects every element. Use for CSS resets only.
+     box-sizing: border-box on * is a very common best practice.
+
+  Q: What is the difference between class and ID in CSS?
+  A: Class (.) → reusable, any number of elements can share it.
+     ID (#)    → unique, one element per page, higher specificity.
+     Prefer classes for styling; use IDs for JS targeting.
+*/
