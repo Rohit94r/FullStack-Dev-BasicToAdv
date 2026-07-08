@@ -1,0 +1,68 @@
+// Prisma schema — Portfolio CMS
+// Run: npx prisma migrate dev --name init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hash — NEVER store plain text!
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String   @db.Text
+  content     String?  @db.Text
+  imageUrl    String?
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tags Tag[] @relation("ProjectTags")
+
+  // TODO: Add optional fields you want:
+  // - githubUrl String?
+  // - liveUrl   String?
+  // - sortOrder Int @default(0)
+}
+
+model Tag {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  slug     String    @unique
+  projects Project[] @relation("ProjectTags")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  body      String   @db.Text
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  // TODO: Add reply tracking if you want:
+  // repliedAt DateTime?
+}
+
+// ─── SEED HINT (prisma/seed.ts) ───
+// Create admin: email admin@example.com, bcrypt hash of "password123"
+// Create 3 sample projects with tags
+
+// TODO: After editing, run:
+// npx prisma migrate dev --name init
+// npx prisma generate
