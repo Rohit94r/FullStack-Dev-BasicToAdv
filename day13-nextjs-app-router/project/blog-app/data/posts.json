@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "slug": "hello-nextjs",
+    "title": "Hello Next.js",
+    "excerpt": "Why the App Router changes everything",
+    "content": "<p>Welcome to your blog. This post is loaded from <code>posts.json</code> by a Server Component.</p>",
+    "createdAt": "2026-01-15",
+    "likes": 3
+  },
+  {
+    "id": "2",
+    "slug": "server-components-explained",
+    "title": "Server Components Explained",
+    "excerpt": "What runs on the server vs the browser",
+    "content": "<p>Server Components render on the server and send HTML to the client.</p>",
+    "createdAt": "2026-01-20",
+    "likes": 7
+  }
+]
