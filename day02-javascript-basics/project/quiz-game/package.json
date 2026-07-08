@@ -1,0 +1,11 @@
+{
+  "name": "quiz-game",
+  "version": "1.0.0",
+  "description": "Day 2 fill-in-the-blank console quiz game",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["quiz", "readline", "learning"],
+  "license": "MIT"
+}

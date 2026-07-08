@@ -1,0 +1,81 @@
+[
+  {
+    "id": 1,
+    "question": "Which keyword declares a block-scoped constant?",
+    "options": ["var", "let", "const", "static"],
+    "answer": 2,
+    "difficulty": "easy",
+    "category": "variables"
+  },
+  {
+    "id": 2,
+    "question": "What does Array.prototype.map() return?",
+    "options": [
+      "The same array mutated in place",
+      "A new array with transformed elements",
+      "The first matching element",
+      "undefined"
+    ],
+    "answer": 1,
+    "difficulty": "easy",
+    "category": "arrays"
+  },
+  {
+    "id": 3,
+    "question": "Which comparison operator checks value AND type?",
+    "options": ["==", "===", "!=", "!=="],
+    "answer": 1,
+    "difficulty": "easy",
+    "category": "operators"
+  },
+  {
+    "id": 4,
+    "question": "What is the result of typeof null?",
+    "options": ["null", "undefined", "object", "number"],
+    "answer": 2,
+    "difficulty": "medium",
+    "category": "types"
+  },
+  {
+    "id": 5,
+    "question": "Which method adds an element to the END of an array?",
+    "options": ["push", "pop", "shift", "unshift"],
+    "answer": 0,
+    "difficulty": "easy",
+    "category": "arrays"
+  },
+  {
+    "id": 6,
+    "question": "What does the spread operator (...) do on an array?",
+    "options": [
+      "Deletes duplicate values",
+      "Expands elements into individual values",
+      "Sorts the array",
+      "Freezes the array"
+    ],
+    "answer": 1,
+    "difficulty": "medium",
+    "category": "es6"
+  },
+  {
+    "id": 7,
+    "question": "Which loop is best for iterating array VALUES (not indices)?",
+    "options": ["for...in", "for...of", "while", "do...while"],
+    "answer": 1,
+    "difficulty": "medium",
+    "category": "loops"
+  },
+  {
+    "id": 8,
+    "question": "What does Object.freeze() do?",
+    "options": [
+      "Deep-clones an object",
+      "Prevents adding/changing/deleting properties",
+      "Converts object to JSON string",
+      "Makes properties private"
+    ],
+    "answer": 1,
+    "difficulty": "hard",
+    "category": "objects"
+  }
+]
