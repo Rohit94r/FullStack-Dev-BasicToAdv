@@ -1,0 +1,12 @@
+{
+  "name": "async-pipeline",
+  "version": "1.0.0",
+  "description": "Day 3 fill-in-the-blank async data pipeline",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": ["promises", "async", "closures", "pipeline"],
+  "license": "MIT"
+}
